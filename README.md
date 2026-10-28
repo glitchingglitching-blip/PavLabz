@@ -1,6 +1,5 @@
 # PavLabz Installer v0.18
 
-> Migration in progress: source is available here. Game-data release uploads are still being transferred; the new installer will be published after those downloads are verified.
 
 [Download the installer APK](https://github.com/glitchingglitching-blip/PavLabz/releases/download/installer-v0.18/PavLabz-Installer-v0.18.apk).
 
