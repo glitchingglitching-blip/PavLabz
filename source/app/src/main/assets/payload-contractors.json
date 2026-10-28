@@ -1,0 +1,49 @@
+{
+  "packageName": "com.CaveManStudio.ContractorsVR",
+  "files": [
+    {
+      "name": "main.181.com.CaveManStudio.ContractorsVR.obb",
+      "size": 2458143161,
+      "sha256": "fc437ccc99ee5bcfc48106b737695f118179a83ea6da68ba546be6efe4ababa4",
+      "crc32": "dcd07fa7",
+      "parts": [
+        {
+          "name": "main.181.com.CaveManStudio.ContractorsVR.obb.part001",
+          "url": "https://github.com/glitchingglitching-blip/PavLabz/releases/download/contractors-obb-v181-20261025/main.181.com.CaveManStudio.ContractorsVR.obb.part001",
+          "size": 1900000000,
+          "sha256": "276ba2c17304b56ca400064c88a1ccfdffa61b5a374acf9f62cc1861d48b9d25",
+          "crc32": "cb246eb7"
+        },
+        {
+          "name": "main.181.com.CaveManStudio.ContractorsVR.obb.part002",
+          "url": "https://github.com/glitchingglitching-blip/PavLabz/releases/download/contractors-obb-v181-20261025/main.181.com.CaveManStudio.ContractorsVR.obb.part002",
+          "size": 558143161,
+          "sha256": "545acafedc1aacb53107e80d189fc542f1fb4fbd6151a2d0cb3bdc7b6b5f33ea",
+          "crc32": "8258d3ef"
+        }
+      ]
+    },
+    {
+      "name": "patch.181.com.CaveManStudio.ContractorsVR.obb",
+      "size": 2459398806,
+      "sha256": "37fca1acb829bf10f58ebf8f7b96cd7f6c0537c1e5b1764fb0795e3891262629",
+      "crc32": "83b00783",
+      "parts": [
+        {
+          "name": "patch.181.com.CaveManStudio.ContractorsVR.obb.part001",
+          "url": "https://github.com/glitchingglitching-blip/PavLabz/releases/download/contractors-obb-v181-20261025/patch.181.com.CaveManStudio.ContractorsVR.obb.part001",
+          "size": 1900000000,
+          "sha256": "8c2597ebfac20754943f5ed891437604ac3b9b19b5016fc4d2255842709aa8dc",
+          "crc32": "72877b5f"
+        },
+        {
+          "name": "patch.181.com.CaveManStudio.ContractorsVR.obb.part002",
+          "url": "https://github.com/glitchingglitching-blip/PavLabz/releases/download/contractors-obb-v181-20261025/patch.181.com.CaveManStudio.ContractorsVR.obb.part002",
+          "size": 559398806,
+          "sha256": "3ac6955032ea99df73c8830a7a2cfd9da2b58ffa41327d7dadfda39c3152213e",
+          "crc32": "d7f5b7df"
+        }
+      ]
+    }
+  ]
+}

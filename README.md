@@ -1,6 +1,8 @@
-# PavLabz Installer v0.17
+# PavLabz Installer v0.18
 
-[Download the installer APK](https://github.com/glitchingfork/PavLabz/releases/download/installer-v0.17/PavLabz-Installer-v0.17.apk).
+> Migration in progress: source is available here. Game-data release uploads are still being transferred; the new installer will be published after those downloads are verified.
+
+[Download the installer APK](https://github.com/glitchingglitching-blip/PavLabz/releases/download/installer-v0.18/PavLabz-Installer-v0.18.apk).
 
 The APK updates previous installer versions using the same signing certificate. No installer uninstall is needed.
 
@@ -48,8 +50,8 @@ Expected size, SHA-256 and CRC32 are pinned for complete files and download part
 
 ## Downloads
 
-- [Pavlov main and patch](https://github.com/glitchingfork/PavLabz/releases/tag/obb-v2397-20261023)
-- [Contractors files](https://github.com/glitchingfork/PavLabz/releases/tag/contractors-obb-v181-20261025)
+- [Pavlov main and patch](https://github.com/glitchingglitching-blip/PavLabz/releases/tag/obb-v2397-20261023)
+- [Contractors files](https://github.com/glitchingglitching-blip/PavLabz/releases/tag/contractors-obb-v181-20261025)
 
 ## Validation
 
@@ -58,3 +60,14 @@ Build and Android lint passed. Local tests passed for both manifests and game ro
 Pairing-screen positioning and red/green presentation were checked in an Android emulator; this does not confirm real Quest pairing or an end-to-end headset transfer.
 
 Source and tests are attached to the release. Build with JDK 17, Android SDK 35 and Gradle 8.9 (gradle assembleDebug lintDebug). Use the existing signing key for installer updates. Keys and local SDK paths are not included in the archive.
+
+## Build the complete project
+
+The Android source, assets and tests are in the source folder.
+
+    cd source
+    ./gradlew assembleDebug lintDebug
+
+On Windows, use gradlew.bat. Install JDK 17 and Android SDK platform 35, and set ANDROID_HOME to your SDK folder. The checked-in Gradle wrapper downloads Gradle 8.9. Development signing uses your local Android debug key; private signing keys and machine-specific SDK paths are excluded.
+
+Local transfer regression tests are in source/part-test. Test-only UI instrumentation is in source/app/src/androidTest and is not included in the production installer APK.

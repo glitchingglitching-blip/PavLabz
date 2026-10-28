@@ -1,0 +1,7 @@
+Third-party components
+LibADB Android — MuntashirAkon/libadb-android, Apache-2.0 option (dual licensed).
+Conscrypt Android — google/conscrypt, Apache-2.0.
+Bouncy Castle — bouncycastle.org, Bouncy Castle license.
+SPAKE2 dependency — see https://github.com/MuntashirAkon/spake2-java for applicable license and sources.
+Rajdhani Medium — Google Fonts, SIL Open Font License; see FONT-LICENSE.txt.
+Source and license notices supplied here for attribution; consult each component's upstream license before public distribution.

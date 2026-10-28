@@ -1,0 +1,15 @@
+/tools/
+/migration/
+/release/
+/prepare_*.py
+/publish_*.py
+/reset_drafts.py
+**/.gradle/
+**/build/
+**/local.properties
+*.keystore
+*.jks
+*.apk
+*.idsig
+*.obb
+*.part[0-9][0-9][0-9]

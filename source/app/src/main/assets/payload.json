@@ -1,0 +1,65 @@
+{
+  "files": [
+    {
+      "name": "main.2397.com.vankrupt.pavlov.obb",
+      "size": 4280985172,
+      "sha256": "11cbca1d6964eaafc083ab497be821c7608b462c9fe89a5aad2569e6218c4eb8",
+      "crc32": "869b3551",
+      "byteForByteVerified": true,
+      "parts": [
+        {
+          "name": "main.2397.com.vankrupt.pavlov.obb.part001",
+          "size": 1900000000,
+          "sha256": "9aff5632fa8f7f35b7ebcdcc3d62be4bd0d420988a3dc8f260d82e2fa51b8e41",
+          "crc32": "614ac3cf",
+          "url": "https://github.com/glitchingglitching-blip/PavLabz/releases/download/obb-v2397-20261023/main.2397.com.vankrupt.pavlov.obb.part001"
+        },
+        {
+          "name": "main.2397.com.vankrupt.pavlov.obb.part002",
+          "size": 1900000000,
+          "sha256": "f92dcc5c1ef137c9f720ac7b1b5047e6a2e9177d426bd1cd817447264be29d6d",
+          "crc32": "0804dad8",
+          "url": "https://github.com/glitchingglitching-blip/PavLabz/releases/download/obb-v2397-20261023/main.2397.com.vankrupt.pavlov.obb.part002"
+        },
+        {
+          "name": "main.2397.com.vankrupt.pavlov.obb.part003",
+          "size": 480985172,
+          "sha256": "b7133f056b78ef4f7f6251df8df30584be9ab9f07e0617305fb5e5f5a22a3621",
+          "crc32": "bff8992e",
+          "url": "https://github.com/glitchingglitching-blip/PavLabz/releases/download/obb-v2397-20261023/main.2397.com.vankrupt.pavlov.obb.part003"
+        }
+      ]
+    },
+    {
+      "name": "patch.2397.com.vankrupt.pavlov.obb",
+      "size": 4198091414,
+      "sha256": "b7208bc6616cd0fc951b9a115ce4b368d49b7bd3885bf4b6246aa33e0eb14be5",
+      "crc32": "1d6fad3c",
+      "byteForByteVerified": true,
+      "parts": [
+        {
+          "name": "patch.2397.com.vankrupt.pavlov.obb.part001",
+          "size": 1900000000,
+          "sha256": "93cdf564eb04299e136a76fa3d1677b2c83e0585550b6742d25446515aaadf85",
+          "crc32": "ca263a34",
+          "url": "https://github.com/glitchingglitching-blip/PavLabz/releases/download/obb-v2397-20261023/patch.2397.com.vankrupt.pavlov.obb.part001"
+        },
+        {
+          "name": "patch.2397.com.vankrupt.pavlov.obb.part002",
+          "size": 1900000000,
+          "sha256": "843a85847d199d6d969b5a57d9dc323b90fb69bc691e52d5ad88a2f8061bc45b",
+          "crc32": "51511aa4",
+          "url": "https://github.com/glitchingglitching-blip/PavLabz/releases/download/obb-v2397-20261023/patch.2397.com.vankrupt.pavlov.obb.part002"
+        },
+        {
+          "name": "patch.2397.com.vankrupt.pavlov.obb.part003",
+          "size": 398091414,
+          "sha256": "2da59604b991a62d5df8e28e437f881366305ffcc7ab668e6cc2d9ac636dfad0",
+          "crc32": "3dedad7b",
+          "url": "https://github.com/glitchingglitching-blip/PavLabz/releases/download/obb-v2397-20261023/patch.2397.com.vankrupt.pavlov.obb.part003"
+        }
+      ]
+    }
+  ],
+  "packageName": "com.vankrupt.pavlov"
+}
