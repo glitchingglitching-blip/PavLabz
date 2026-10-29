@@ -1,7 +1,7 @@
-# PavLabz Installer v0.18
+# PavLabz Installer v0.19
 
 
-[Download the installer APK](https://github.com/glitchingglitching-blip/PavLabz/releases/download/installer-v0.18/PavLabz-Installer-v0.18.apk).
+[Download the installer APK](https://github.com/glitchingglitching-blip/PavLabz/releases/download/installer-v0.19/PavLabz-Installer-v0.19.apk).
 
 The APK updates previous installer versions using the same signing certificate. No installer uninstall is needed.
 
@@ -34,8 +34,8 @@ Replace anyway downloads and verifies every required OBB again, including matchi
 Pavlov uses two files directly in its package folder:
 
     Android/obb/com.vankrupt.pavlov/
-      main.2397.com.vankrupt.pavlov.obb
-      patch.2397.com.vankrupt.pavlov.obb
+      main.2447.com.vankrupt.pavlov.obb
+      patch.2447.com.vankrupt.pavlov.obb
 
 Contractors uses two files directly in its package folder:
 
@@ -49,12 +49,12 @@ Expected size, SHA-256 and CRC32 are pinned for complete files and download part
 
 ## Downloads
 
-- [Pavlov main and patch](https://github.com/glitchingglitching-blip/PavLabz/releases/tag/obb-v2397-20261023)
+- [Pavlov main and patch](https://github.com/glitchingglitching-blip/PavLabz/releases/tag/obb-v2447)
 - [Contractors files](https://github.com/glitchingglitching-blip/PavLabz/releases/tag/contractors-obb-v181-20261025)
 
 ## Validation
 
-Build and Android lint passed. Local tests passed for both manifests and game routes, 8 Pavlov replacement scenarios, a duplex transfer-handshake test, and 12 Contractors nested-folder repair scenarios, incomplete/conflicting/duplicate/older/unknown nested contents, replacement and rollback, and final size/SHA-256/CRC32. The APK signing certificate matches previous installer releases. No headset was connected for an end-to-end transfer test.
+See release notes for validation of this version. Local tests passed for both manifests and game routes, 8 Pavlov replacement scenarios, a duplex transfer-handshake test, and 12 Contractors nested-folder repair scenarios, incomplete/conflicting/duplicate/older/unknown nested contents, replacement and rollback, and final size/SHA-256/CRC32. The APK signing certificate matches previous installer releases. No headset was connected for an end-to-end transfer test.
 
 Pairing-screen positioning and red/green presentation were checked in an Android emulator; this does not confirm real Quest pairing or an end-to-end headset transfer.
 
