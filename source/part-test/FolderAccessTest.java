@@ -1,0 +1,14 @@
+package dev.offline.obbinstaller;
+import java.io.*;import java.nio.file.*;import java.util.*;
+public class FolderAccessTest {
+ static void check(boolean b){if(!b)throw new AssertionError();}
+ static void act(File root,String action,String path)throws Exception{ByteArrayOutputStream b=new ByteArrayOutputStream();DataOutputStream o=new DataOutputStream(b);o.writeUTF(action);o.writeUTF(path);FolderAccess.handle(root,new DataInputStream(new ByteArrayInputStream(b.toByteArray())),new DataOutputStream(new ByteArrayOutputStream()));}
+ static void reject(File r,String action,String path)throws Exception{try{act(r,action,path);throw new AssertionError("Accepted "+path);}catch(IOException expected){}}
+ public static void main(String[] args)throws Exception{
+  Path root=Files.createTempDirectory(Path.of(args[0]),"browser-");File r=root.toFile();Files.createDirectory(root.resolve("update"));Files.writeString(root.resolve("update/main.2449.test.obb"),"payload");act(r,"MOVE_ROOT","update/main.2449.test.obb");check(Files.readString(root.resolve("main.2449.test.obb")).equals("payload"));act(r,"DELETE","update");check(!Files.exists(root.resolve("update")));
+  for(String n:new String[]{"overflow1.2449.com.vankrupt.pavlov.obb","overflow2.2449.com.vankrupt.pavlov.obb"}){Files.writeString(root.resolve(n),"protected");reject(r,"DELETE",n);reject(r,"MOVE_ROOT",n);check(Files.readString(root.resolve(n)).equals("protected"));}
+  reject(r,"LIST","../");reject(r,"DELETE","");reject(r,"LIST","/sdcard");reject(r,"LIST","a/../b");Files.createDirectory(root.resolve("full"));Files.writeString(root.resolve("full/keep"),"keep");reject(r,"DELETE","full");Files.writeString(root.resolve("keep"),"existing");reject(r,"MOVE_ROOT","full/keep");check(Files.readString(root.resolve("full/keep")).equals("keep"));act(r,"LIST","");
+  try{PavlovReplacement.checkNames(r,new String[]{"main.2449.com.vankrupt.pavlov.obb","patch.2449.com.vankrupt.pavlov.obb"},false);throw new AssertionError();}catch(IOException expected){}
+  System.out.println("PASS folder listing, confined moves, collision protection, empty-only deletion, overflow protection, traversal and subfolder rejection");
+ }
+}

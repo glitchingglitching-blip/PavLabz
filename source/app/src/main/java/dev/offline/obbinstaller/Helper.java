@@ -26,7 +26,8 @@ public final class Helper {
                     try {
                         DataInputStream request = new DataInputStream(client.getInputStream());
                         LinkAuth.server(request,out,secret);client.setSoTimeout(30*60*1000);String operation=request.readUTF();if(operation.equals("REVOKE_V1")){out.writeUTF("STOPPING");out.flush();return;}
-                        if(operation.equals("PING_V2")){String hash=request.readUTF();if(!payloads.containsKey(hash))throw new IOException("Unknown game payload; reconnect access");out.writeUTF("READY_V18:"+hash);out.flush();continue;}
+                        if(operation.equals("PING_V2")){String hash=request.readUTF();if(!payloads.containsKey(hash))throw new IOException("Unknown game payload; reconnect access");out.writeUTF("READY_V21:"+hash);out.flush();continue;}
+                        if(operation.equals("FOLDER_V1")){Payload browse=payloads.get(request.readUTF());if(browse==null)throw new IOException("Unknown game");FolderAccess.handle(new File("/sdcard/Android/obb",browse.packageName),request,out);continue;}
                         if (!operation.equals("INSTALL_V1") && !operation.equals("INSTALL_FORCE_V1"))
                             throw new IOException("Unknown request");
                         Payload payload=payloads.get(request.readUTF());
@@ -39,9 +40,6 @@ public final class Helper {
                         if (!dir.isDirectory() && !dir.mkdir()) throw new IOException("Cannot create target OBB directory");
                         String[] expectedNames=new String[payload.files.size()];
                         for(int i=0;i<expectedNames.length;i++)expectedNames[i]=payload.files.get(i).name;
-                        File downloadRoot=new File("/sdcard/Download").getCanonicalFile();
-                        int recovered=payload.packageName.equals(PavlovReplacement.PACKAGE)?0:ObbPlacement.repairNested(dir,payload,new File(downloadRoot,"PavLabz-recovery/"+payload.packageName));
-                        if(recovered>0)say(out,"Preserved "+recovered+" misplaced folder(s) in /sdcard/Download/PavLabz-recovery/"+payload.packageName);
                         say(out,"Checking all required OBB filenames in "+dir.getAbsolutePath());
                         ObbPlacement.checkNames(dir,payload.packageName,expectedNames,false);
                         java.util.List<String> oldNames = payload.packageName.equals(PavlovReplacement.PACKAGE)?new java.util.ArrayList<>():findOldFiles(dir, payload);
@@ -49,12 +47,9 @@ public final class Helper {
                         String choice = request.readUTF();
                         if (!choice.equals("BACKUP") && !choice.equals("REPLACE")) throw new IOException("Invalid backup choice");
                         for (Payload.Entry entry : payload.files) copy(dir, entry, out, choice.equals("BACKUP"), request, operation.equals("INSTALL_FORCE_V1"));
-                        if(payload.packageName.equals(PavlovReplacement.PACKAGE)){
-                            int moved=PavlovReplacement.recoverExtra(dir,expectedNames,new File(downloadRoot,"PavLabz-recovery/"+payload.packageName));
-                            if(moved>0)say(out,"Moved "+moved+" other item(s), including any overflow files, to /sdcard/Download/PavLabz-recovery/"+payload.packageName+". The game may require its overflow files.");
-                        }
                         ObbPlacement.checkNames(dir,payload.packageName,expectedNames,true);
-                        say(out, "DONE: All required .obb names, location, size, SHA-256 and CRC32 verified in " + dir.getAbsolutePath() + (payload.packageName.equals(PavlovReplacement.PACKAGE)?". Any other contents, including overflow files, are moved to /sdcard/Download/PavLabz-recovery/com.vankrupt.pavlov/. The game may require overflow files.":""));
+                        for(Payload.Entry entry:payload.files)Payload.verifyStored(new File(dir,entry.name),entry);
+                        say(out, "DONE: Both OBBs verified on storage (size, SHA-256 and CRC32). Existing overflow files remain in place. Game compatibility requires a launch test.");
                     } catch (Exception e) {
                         say(out, "ERROR: " + e.getClass().getSimpleName() + ": " + e.getMessage() + ". Earlier completed files remain installed.");
                     }

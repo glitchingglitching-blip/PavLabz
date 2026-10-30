@@ -7,8 +7,8 @@ android {
         minSdk 29
         targetSdk 35
         testInstrumentationRunner "dev.offline.obbinstaller.PositioningInstrumentation"
-        versionCode 21
-        versionName '0.20'
+        versionCode 22
+        versionName '0.21'
     }
     buildTypes { debug { debuggable false }; release { minifyEnabled false; debuggable false } }
     androidResources { noCompress += ['obb'] }

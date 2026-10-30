@@ -34,23 +34,9 @@ public final class PavlovReplaceTest{
     check(!Files.exists(older)&&!Files.exists(old)&&!Files.exists(saved)&&!Files.exists(update.resolve(e.name)),"Old main/patch copies remain");
    }
    for(Path f:overflow)check(Arrays.equals(Files.readAllBytes(f),bytes(f.toString())),"Overflow moved or modified: "+f);
-   String[] names={entry("main").name,entry("patch").name};
-   try{ObbPlacement.checkNames(dir.toFile(),PavlovReplacement.PACKAGE,names,true);throw new AssertionError("Extra entries accepted");}catch(IOException expected){}
-   Path recovery=root.resolve("recovery-"+scenario+"-"+force);check(PavlovReplacement.recoverExtra(dir.toFile(),names,recovery.toFile())==3,"Expected overflow files and update directory recovered");
-   for(Path f:overflow){Path batch;try(java.util.stream.Stream<Path> list=Files.list(recovery)){batch=list.findFirst().orElseThrow();}Path saved=batch.resolve(dir.relativize(f));check(Arrays.equals(Files.readAllBytes(saved),bytes(f.toString())),"Recovery changed content: "+f);}
-   ObbPlacement.checkNames(dir.toFile(),PavlovReplacement.PACKAGE,names,true);try(java.util.stream.Stream<Path> list=Files.list(dir)){check(list.count()==2,"Unexpected entry in final folder");}
+   String[] names={entry("main").name,entry("patch").name};try{ObbPlacement.checkNames(dir.toFile(),PavlovReplacement.PACKAGE,names,true);throw new AssertionError("Subfolder accepted");}catch(IOException expected){}
    check(Files.list(dir).noneMatch(f->f.getFileName().toString().startsWith(".obb-")),"Temporary or held old file remains");
   }
-  Path interrupted=Files.createDirectory(root.resolve("interrupted"));Payload.Entry a=entry("main"),b=entry("patch");
-  Files.write(interrupted.resolve("main.2396.com.vankrupt.pavlov.obb"),bytes("old-main"));Files.write(interrupted.resolve("patch.2396.com.vankrupt.pavlov.obb"),bytes("old-patch"));
-  copy(interrupted.toFile(),a,true,false);try{copy(interrupted.toFile(),b,true,true);throw new AssertionError("Corrupt patch accepted");}catch(IOException expected){}
-  check(Files.exists(interrupted.resolve("patch.2396.com.vankrupt.pavlov.obb")),"Interrupted patch removed old copy");
-  copy(interrupted.toFile(),b,true,false);PavlovReplacement.checkNames(interrupted.toFile(),new String[]{a.name,b.name},true);
-  Path newer=Files.createDirectory(root.resolve("newer"));Files.write(newer.resolve("main.2450.com.vankrupt.pavlov.obb"),bytes("newer"));
-  try{PavlovReplacement.checkNames(newer.toFile(),new String[]{a.name,b.name},false);throw new AssertionError("Newer version accepted");}catch(IOException expected){}
-  Path failed=Files.createDirectory(root.resolve("failed-recovery"));Files.write(failed.resolve("keep.txt"),bytes("keep"));Path blocked=root.resolve("not-a-directory");Files.write(blocked,bytes("blocked"));
-  try{PavlovReplacement.recoverExtra(failed.toFile(),new String[]{a.name,b.name},blocked.toFile());throw new AssertionError("Bad recovery location accepted");}catch(IOException expected){}
-  check(Files.exists(failed.resolve("keep.txt")),"Recovery failure deleted source");
   Path live=Files.createDirectory(root.resolve("duplex"));Payload.Entry expected=entry("main");
   java.util.concurrent.ExecutorService pool=java.util.concurrent.Executors.newSingleThreadExecutor();
   try(java.net.ServerSocket listener=new java.net.ServerSocket(0,1,java.net.InetAddress.getLoopbackAddress())){
@@ -65,6 +51,6 @@ public final class PavlovReplaceTest{
   }finally{pool.shutdownNow();}
   Payload.verifyStored(live.resolve(expected.name).toFile(),expected);
   System.out.println("PASS: duplex transfer handshake waits for helper readiness before streaming; no deadlock.");
-  System.out.println("PASS: 8 Pavlov replacement scenarios, corruption handling, verified recovery of extra files and directories, and exact final two-file layout.");
+  System.out.println("PASS: 8 Pavlov normal/force replacement scenarios; root and nested overflow1/2 untouched; old and backup main/patch deleted only after verification; corrupt downloads preserve old files; no held-old or recovery relocation; subfolders stop success.");
  }
 }

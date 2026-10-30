@@ -1,7 +1,7 @@
-# PavLabz Installer v0.20
+# PavLabz Installer v0.21
 
 
-[Download the installer APK](https://github.com/glitchingglitching-blip/PavLabz/releases/download/installer-v0.20/PavLabz-Installer-v0.20.apk).
+[Download the installer APK](https://github.com/glitchingglitching-blip/PavLabz/releases/download/installer-v0.21/PavLabz-Installer-v0.21.apk).
 
 The APK updates previous installer versions using the same signing certificate. No installer uninstall is needed.
 
@@ -17,17 +17,17 @@ The APK updates previous installer versions using the same signing certificate. 
 
 The original dark/red style is retained. The code, labeled status circle and Verify button stay together; navigation adapts as the window is resized. Disconnecting access hides the options again.
 
-### Pavlov replacement fix
+### Verified transfer and folder access
 
-Pavlov installs main and patch directly in the game package OBB folder. After both verify, all other files and folders, including overflow files, are moved into a uniquely named recovery folder under /sdcard/Download/PavLabz-recovery/com.vankrupt.pavlov/. The game may require overflow files to load or function.
+Existing overflow1 and overflow2 files remain at their exact paths. The installer never moves or deletes them. No automatic recovery folders are created and no game contents are moved outside the selected game OBB directory.
 
-The new main or patch is downloaded to a temporary file and checked for exact size, SHA-256 and CRC32 before replacement. A same-directory atomic replacement removes the old destination without moving it to a backup or recovery folder. Matching older main/patch versions and main/patch backup copies in the root, plus matching older main/patch files directly inside an update folder, are deleted after the new file verifies. Pavlov no longer offers the backup choice.
+After verifying access, each game has a View OBB folder button. The browser displays the actual selected game directory, opens subfolders, moves individual nested files into that same game root, and deletes explicitly selected files or empty folders after confirmation. Overflow files are protected from move and delete. Existing destination files are never overwritten by a manual move.
 
-The final Pavlov OBB folder must contain exactly the two required files and no subfolders. Newer-version main/patch files cause a version-mismatch stop rather than being deleted. If installation stops midway, a verified new main may coexist with an older patch; retry to complete both.
+If a subfolder exists, installation stops before transfer and asks the user to inspect it. Main and patch are installed directly in the game root. Each download is checked for byte count, SHA-256 and CRC32, then both completed files are checked again on storage before success. Older Pavlov main/patch copies are deleted only after the replacement verifies. Failed transfers report an error; a completed main can remain alongside an older patch until retry succeeds.
 
-Contractors retains its existing folder-repair and optional-backup behavior. Verified misplaced OBBs move into its package folder; leftover nested content is preserved under /sdcard/Download/PavLabz-recovery/com.CaveManStudio.ContractorsVR/.
+Version 0.20 moved additional contents (including overflow files) into /sdcard/Download/PavLabz-recovery. Users affected by that version may need to manually restore required overflow files to their original game directory. This update does not automatically move recovery contents.
 
-Replace anyway downloads and verifies every required OBB again, including matching files. Allow enough free headset storage for staged replacement; keeping backups uses additional space.
+A verified transfer does not establish game or mod compatibility. Game closure needs game logs to diagnose.
 
 ## Correct layout
 
@@ -43,7 +43,7 @@ Contractors uses two files directly in its package folder:
       main.181.com.CaveManStudio.ContractorsVR.obb
       patch.181.com.CaveManStudio.ContractorsVR.obb
 
-Both game transfers contain main and patch only, with no separately downloaded overflow files. Replacement main and patch files are written directly in the selected game folder. Existing Pavlov overflow files are moved to recovery, and the game may require them. Download chunks such as .part001 are reconstructed into actual .obb files by the installer.
+Both game transfers contain main and patch only, with no separately downloaded overflow files. Replacement main and patch files are written directly in the selected game folder. Existing overflow files stay at their original paths. Download chunks such as .part001 are reconstructed into actual .obb files by the installer.
 
 Expected size, SHA-256 and CRC32 are pinned for complete files and download parts. The final flat layout is checked before success. These are the packaged game versions, not a promise of compatibility with future game updates.
 
