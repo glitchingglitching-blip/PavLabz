@@ -12,7 +12,8 @@ public final class Helper {
         if (android.os.Process.myUid() != 2000 || args.length != 3)
             throw new SecurityException("Must start as adb shell with APK path and installer UID");
         int allowedUid = Integer.parseInt(args[1]);
-        if (allowedUid < 10000 || allowedUid >= 100000) throw new SecurityException("Owner profile only");
+        if (allowedUid < 10000 || allowedUid % 100000 < 10000) throw new SecurityException("Invalid installer UID");
+        int profile=allowedUid/100000;
         File apk = new File(args[0]); byte[] secret=java.nio.file.Files.readAllBytes(new File(args[2]).toPath());if(secret.length!=32)throw new SecurityException("Invalid secret");
         try (ZipFile zip = new ZipFile(apk);
              java.net.ServerSocket server = new java.net.ServerSocket(0, 4, java.net.InetAddress.getByName("127.0.0.1"))) {
@@ -26,20 +27,20 @@ public final class Helper {
                     try {
                         DataInputStream request = new DataInputStream(client.getInputStream());
                         LinkAuth.server(request,out,secret);client.setSoTimeout(30*60*1000);String operation=request.readUTF();if(operation.equals("REVOKE_V1")){out.writeUTF("STOPPING");out.flush();return;}
-                        if(operation.equals("PING_V2")){String hash=request.readUTF();if(!payloads.containsKey(hash))throw new IOException("Unknown game payload; reconnect access");out.writeUTF("READY_V21:"+hash);out.flush();continue;}
-                        if(operation.equals("FOLDER_V1")){Payload browse=payloads.get(request.readUTF());if(browse==null)throw new IOException("Unknown game");FolderAccess.handle(new File("/sdcard/Android/obb",browse.packageName),request,out);continue;}
+                        if(operation.equals("PING_V2")){String hash=request.readUTF();if(!payloads.containsKey(hash))throw new IOException("Unknown game payload; reconnect access");out.writeUTF("READY_V22:"+hash);out.flush();continue;}
+                        if(operation.equals("FOLDER_V1")){Payload browse=payloads.get(request.readUTF());if(browse==null)throw new IOException("Unknown game");FolderAccess.handle(FolderAccess.gameRoot(allowedUid,browse.packageName),request,out);continue;}
                         if (!operation.equals("INSTALL_V1") && !operation.equals("INSTALL_FORCE_V1"))
                             throw new IOException("Unknown request");
                         Payload payload=payloads.get(request.readUTF());
                         if(payload==null)throw new IOException("Helper payload differs from installed APK; reconnect access");
-                        ensureInstalled(payload.packageName);
-                        File root = new File("/sdcard/Android/obb").getCanonicalFile();
-                        File dir = new File(root, payload.packageName);
+                        ensureInstalled(payload.packageName,profile);
+                        File dir = FolderAccess.gameRoot(allowedUid,payload.packageName);
                         if (!dir.getCanonicalFile().equals(dir.getAbsoluteFile()))
                             throw new IOException("Refusing redirected destination");
                         if (!dir.isDirectory() && !dir.mkdir()) throw new IOException("Cannot create target OBB directory");
                         String[] expectedNames=new String[payload.files.size()];
                         for(int i=0;i<expectedNames.length;i++)expectedNames[i]=payload.files.get(i).name;
+                        int removed=FolderAccess.removeEmptyFolders(dir);if(removed>0)say(out,"Removed "+removed+" empty folder(s). Files and overflow contents unchanged.");
                         say(out,"Checking all required OBB filenames in "+dir.getAbsolutePath());
                         ObbPlacement.checkNames(dir,payload.packageName,expectedNames,false);
                         java.util.List<String> oldNames = payload.packageName.equals(PavlovReplacement.PACKAGE)?new java.util.ArrayList<>():findOldFiles(dir, payload);
@@ -47,6 +48,7 @@ public final class Helper {
                         String choice = request.readUTF();
                         if (!choice.equals("BACKUP") && !choice.equals("REPLACE")) throw new IOException("Invalid backup choice");
                         for (Payload.Entry entry : payload.files) copy(dir, entry, out, choice.equals("BACKUP"), request, operation.equals("INSTALL_FORCE_V1"));
+                        FolderAccess.removeEmptyFolders(dir);
                         ObbPlacement.checkNames(dir,payload.packageName,expectedNames,true);
                         for(Payload.Entry entry:payload.files)Payload.verifyStored(new File(dir,entry.name),entry);
                         say(out, "DONE: Both OBBs verified on storage (size, SHA-256 and CRC32). Existing overflow files remain in place. Game compatibility requires a launch test.");
@@ -80,13 +82,13 @@ public final class Helper {
         if (old.size() > payload.files.size()) throw new IOException("Multiple older OBBs found. Clean up the game folder before retrying: " + join(old));
         return old;
     }
-    static void ensureInstalled(String pkg) throws Exception {
-        Process p = new ProcessBuilder("/system/bin/pm", "path", "--user", "0", pkg).redirectErrorStream(true).start();
+    static void ensureInstalled(String pkg,int profile) throws Exception {
+        Process p = new ProcessBuilder("/system/bin/pm", "path", "--user", Integer.toString(profile), pkg).redirectErrorStream(true).start();
         boolean found = false;
         try (BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()))) {
             String line; while ((line = r.readLine()) != null) if (line.startsWith("package:")) found = true;
         }
-        if (p.waitFor() != 0 || !found) throw new IOException("Target game is not installed for owner profile");
+        if (p.waitFor() != 0 || !found) throw new IOException("Target game is not installed for this profile");
     }
     static void copy(File dir, Payload.Entry e, DataOutputStream out, boolean keepBackup, DataInputStream network, boolean force) throws Exception {
         if(e.name.endsWith("."+PavlovReplacement.PACKAGE+".obb")){PavlovReplacement.copy(dir,e,out,network,force);return;}

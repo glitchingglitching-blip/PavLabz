@@ -13,6 +13,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MainActivity extends Activity {
+    String pendingFolderGame,pendingFolderPath;
     String selectedGame=GameCatalog.PAVLOV;
     LinearLayout optionsPanel,installPanel,gameChoices,setupPanel; android.view.View accessIndicator; TextView accessLabel;
     Button verifyButton,navGames,navInstall; EditText pairingCode; volatile boolean accessVerified,checkingAccess; boolean gameChosen; int accessEpoch;
@@ -68,10 +69,11 @@ public class MainActivity extends Activity {
         code.setHint("Code from: Pair device with pairing code");pair.setText("Verify");
         optionsPanel=new LinearLayout(this);optionsPanel.setOrientation(LinearLayout.VERTICAL);optionsPanel.setVisibility(android.view.View.GONE);
         installPanel=new LinearLayout(this);installPanel.setOrientation(LinearLayout.VERTICAL);installPanel.setVisibility(android.view.View.GONE);
+        LinearLayout folderChoices=new LinearLayout(this);folderChoices.setOrientation(LinearLayout.VERTICAL);
         gameChoices=new LinearLayout(this);gameChoices.setOrientation(LinearLayout.VERTICAL);
         TextView choose=new TextView(this);choose.setText("Choose your game");gameChoices.addView(choose);
         for(String game:new String[]{GameCatalog.PAVLOV,GameCatalog.CONTRACTORS}){
-         Button pick=new Button(this);pick.setText(GameCatalog.title(game));pick.setOnClickListener(v->{if(busy||!accessVerified)return;selectedGame=game;gameChosen=true;installPanel.setVisibility(android.view.View.VISIBLE);show(GameCatalog.title(game)+"\nDestination: /sdcard/Android/obb/"+GameCatalog.target(game)+"\nMain and patch go directly in this folder. Existing overflow files stay in place. No folders or files are moved outside the game folder. Close the game before installing.");});gameChoices.addView(pick);Button view=new Button(this);view.setText("View "+GameCatalog.title(game)+" OBB folder");view.setOnClickListener(v->FolderBrowser.open(this,game,""));gameChoices.addView(view);
+         Button pick=new Button(this);pick.setText(GameCatalog.title(game));pick.setOnClickListener(v->{if(busy||!accessVerified)return;selectedGame=game;gameChosen=true;installPanel.setVisibility(android.view.View.VISIBLE);show(GameCatalog.title(game)+"\nDestination: /sdcard/Android/obb/"+GameCatalog.target(game)+"\nMain and patch go directly in this folder. Existing overflow files stay in place. No folders or files are moved outside the game folder. Close the game before installing.");});gameChoices.addView(pick);Button view=new Button(this);view.setText("View "+GameCatalog.title(game)+" OBB folder");view.setOnClickListener(v->FolderBrowser.open(this,game,""));folderChoices.addView(view);
         }
         optionsPanel.addView(gameChoices);optionsPanel.addView(installPanel);
         for(android.view.View view:new android.view.View[]{forceReplace,install,progress,progressText,success})installPanel.addView(view);
@@ -80,7 +82,7 @@ public class MainActivity extends Activity {
         accessIndicator=new android.view.View(this);int dot=(int)(16*getResources().getDisplayMetrics().density);LinearLayout.LayoutParams dotParams=new LinearLayout.LayoutParams(dot,dot);dotParams.setMargins(12,8,12,8);verificationRow.addView(accessIndicator,dotParams);
         accessLabel=new TextView(this);accessLabel.setText("Not verified");verificationRow.addView(accessLabel,new LinearLayout.LayoutParams(0,-2,1));
         verificationRow.addView(pair,new LinearLayout.LayoutParams(0,-2,1));
-        layout.addView(code);layout.addView(verificationRow);layout.addView(status);setupPanel=new LinearLayout(this);setupPanel.setOrientation(LinearLayout.VERTICAL);for(android.view.View support:new android.view.View[]{settings,start,manual,host,port,connection})setupPanel.addView(support);layout.addView(setupPanel);layout.addView(optionsPanel);
+        layout.addView(code);layout.addView(verificationRow);layout.addView(status);setupPanel=new LinearLayout(this);setupPanel.setOrientation(LinearLayout.VERTICAL);for(android.view.View support:new android.view.View[]{settings,start,manual,host,port,connection})setupPanel.addView(support);layout.addView(setupPanel);layout.addView(folderChoices);layout.addView(optionsPanel);
         Button revoke=new Button(this);revoke.setText("Disconnect installer access");revoke.setOnClickListener(v->{if(busy){show("Wait for installation to finish before disconnecting.");return;}new Thread(()->{try(java.net.Socket socket=helperSocket()){DataOutputStream out=new DataOutputStream(socket.getOutputStream());out.writeUTF("REVOKE_V1");out.flush();String response=new DataInputStream(socket.getInputStream()).readUTF();if(!response.equals("STOPPING"))throw new IOException("Unexpected helper response");getSharedPreferences("helper",0).edit().clear().commit();setAccess(false);show("Installer access disconnected. Enter a pairing code or reconnect to verify again.");}catch(Exception e){setAccess(false);show("Could not stop helper: "+e);}},"revoke").start();});optionsPanel.addView(revoke);
 
         nsd=(android.net.nsd.NsdManager)getSystemService(NSD_SERVICE);
@@ -113,6 +115,7 @@ public class MainActivity extends Activity {
       if(navGames!=null)navGames.setEnabled(ready);if(navInstall!=null)navInstall.setEnabled(ready);
       accessLabel.setText(ready?"Verified":"Not verified");accessLabel.setTextColor(ready?0xff35c978:UiStyle.WHITE);
       setupPanel.setVisibility(ready?android.view.View.GONE:android.view.View.VISIBLE);optionsPanel.setVisibility(ready?android.view.View.VISIBLE:android.view.View.GONE);installPanel.setVisibility(ready&&gameChosen?android.view.View.VISIBLE:android.view.View.GONE);
+      if(ready&&pendingFolderGame!=null){String game=pendingFolderGame,path=pendingFolderPath;pendingFolderGame=null;pendingFolderPath=null;FolderBrowser.open(this,game,path);}
     });}
     @Override protected void onResume(){super.onResume();if(optionsPanel!=null&&!busy&&!checkingAccess){final int epoch=++accessEpoch;new Thread(()->{boolean ready=helperReady();runOnUiThread(()->{if(epoch==accessEpoch&&!checkingAccess&&!busy)setAccess(ready);});},"access-check").start();}}
     @Override protected void onSaveInstanceState(Bundle state){state.putString("game",selectedGame);state.putBoolean("chosen",gameChosen);super.onSaveInstanceState(state);}
@@ -132,14 +135,12 @@ public class MainActivity extends Activity {
       java.net.Socket socket=new java.net.Socket();try{socket.connect(new java.net.InetSocketAddress("127.0.0.1",port),2000);socket.setSoTimeout(5000);LinkAuth.client(new DataInputStream(socket.getInputStream()),new DataOutputStream(socket.getOutputStream()),android.util.Base64.decode(secret,android.util.Base64.NO_WRAP));return socket;}catch(Exception e){socket.close();throw e;}
     }
     void retirePreviousHelper(){try(java.net.Socket socket=helperSocket()){DataOutputStream out=new DataOutputStream(socket.getOutputStream());out.writeUTF("REVOKE_V1");out.flush();if(new DataInputStream(socket.getInputStream()).readUTF().equals("STOPPING"))getSharedPreferences("helper",0).edit().clear().commit();}catch(Exception ignored){}}
-    boolean helperReady(){try(java.net.Socket socket=helperSocket()){socket.setSoTimeout(2000);DataOutputStream out=new DataOutputStream(socket.getOutputStream());try(InputStream asset=getAssets().open(GameCatalog.asset(selectedGame))){String hash=new Payload(asset).manifestHash;out.writeUTF("PING_V2");out.writeUTF(hash);out.flush();return new DataInputStream(socket.getInputStream()).readUTF().equals("READY_V21:"+hash);}}catch(Exception e){return false;}}
+    boolean helperReady(){try(java.net.Socket socket=helperSocket()){socket.setSoTimeout(2000);DataOutputStream out=new DataOutputStream(socket.getOutputStream());try(InputStream asset=getAssets().open(GameCatalog.asset(selectedGame))){String hash=new Payload(asset).manifestHash;out.writeUTF("PING_V2");out.writeUTF(hash);out.flush();return new DataInputStream(socket.getInputStream()).readUTF().equals("READY_V22:"+hash);}}catch(Exception e){return false;}}
     boolean isLocalAddress(java.net.InetAddress address){try{return java.net.NetworkInterface.getByInetAddress(address)!=null;}catch(Exception e){return false;}}
     @Override protected void onDestroy(){if(nsd!=null && discovery!=null)try{nsd.stopServiceDiscovery(discovery);}catch(Exception ignored){}super.onDestroy();}
     static int validPort(String value) { int p=Integer.parseInt(value);if(p<1 || p>65535)throw new IllegalArgumentException("Port must be 1–65535");return p; }
     void performInstall() {
         try {
-            if (android.os.Process.myUid() / 100000 != 0)
-                throw new IOException("Prototype supports the headset owner profile only");
             Payload payload;
             try (InputStream in = getAssets().open(GameCatalog.asset(selectedGame))) { payload = new Payload(in); }
             if(!payload.packageName.equals(GameCatalog.target(selectedGame)))throw new IOException("Selected game and download target differ");

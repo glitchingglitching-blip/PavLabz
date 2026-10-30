@@ -1,6 +1,22 @@
 package dev.offline.obbinstaller;
 import java.io.*;import java.nio.file.*;import java.util.*;
 final class FolderAccess {
+ static File gameRoot(int uid,String pkg)throws IOException{
+  if(uid<10000||uid%100000<10000||(!pkg.equals(GameCatalog.target(GameCatalog.PAVLOV))&&!pkg.equals(GameCatalog.target(GameCatalog.CONTRACTORS))))throw new IOException("Invalid profile or game");
+  return new File("/storage/emulated/"+(uid/100000)+"/Android/obb",pkg).getCanonicalFile();
+ }
+ static int removeEmptyFolders(File root)throws IOException{validateFolders(root,0,new int[]{0});return prune(root,0);}
+ static void validateFolders(File dir,int depth,int[] count)throws IOException{
+  if(depth>64||++count[0]>10000||!dir.getCanonicalFile().equals(dir.getAbsoluteFile()))throw new IOException("Unsafe folder tree");
+  File[] entries=dir.listFiles();if(entries==null)throw new IOException("Folder access denied; reconnect access");
+  for(File f:entries){if(!f.getCanonicalFile().equals(f.getAbsoluteFile()))throw new IOException("Redirected entry");if(f.isDirectory())validateFolders(f,depth+1,count);}
+ }
+ static int prune(File dir,int depth)throws IOException{
+  if(depth>64||!dir.getCanonicalFile().equals(dir.getAbsoluteFile()))throw new IOException("Unsafe folder tree");
+  File[] entries=dir.listFiles();if(entries==null)throw new IOException("Cannot inspect folder");int removed=0;
+  for(File f:entries)if(f.isDirectory()){removed+=prune(f,depth+1);String[] left=f.list();if(left==null)throw new IOException("Cannot inspect folder");if(left.length==0){if(!f.delete())throw new IOException("Cannot delete empty folder: "+f.getName());removed++;}}
+  return removed;
+ }
  static File resolve(File root,String relative)throws IOException{
   if(!root.getCanonicalFile().equals(root.getAbsoluteFile()))throw new IOException("Redirected game folder");
   if(relative.length()>2048||relative.startsWith("/")||relative.contains("\\"))throw new IOException("Invalid path");

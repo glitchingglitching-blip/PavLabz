@@ -2,7 +2,15 @@ package dev.offline.obbinstaller;
 import java.io.*;import java.util.*;import android.app.*;
 final class FolderBrowser {
  static String parent(String path){int n=path.lastIndexOf('/');return n<0?"":path.substring(0,n);}
- static void open(MainActivity a,String game,String path){request(a,game,path,"LIST");}
+ static void open(MainActivity a,String game,String path){
+  if(a.busy){a.show("Finish the current operation first.");return;}
+  String key="allowed-"+game;
+  if(!a.getSharedPreferences("folder-consent",0).getBoolean(key,false)){
+   new AlertDialog.Builder(a).setTitle("Allow OBB folder access?").setMessage("Allow this installer to view "+GameCatalog.title(game)+" OBB files and perform the move/delete actions you select? Overflow files are protected. Access uses the wireless debugging connection; a normal storage permission cannot unlock Android/obb.").setPositiveButton("Allow",(d,w)->{a.getSharedPreferences("folder-consent",0).edit().putBoolean(key,true).apply();open(a,game,path);}).setNegativeButton("Cancel",null).show();return;
+  }
+  if(!a.accessVerified){new AlertDialog.Builder(a).setTitle("Connect folder access").setMessage("Enter the headset wireless-debugging pairing code and tap Verify. If already paired, tap Reconnect access. The folder opens automatically after access is verified.").setPositiveButton("Set up access",(d,w)->{a.pendingFolderGame=game;a.pendingFolderPath=path;a.setupPanel.setVisibility(android.view.View.VISIBLE);a.pairingCode.requestFocus();}).setNegativeButton("Cancel",null).show();return;}
+  request(a,game,path,"LIST");
+ }
  static void request(MainActivity a,String game,String path,String action){
   if(a.busy||!a.accessVerified){a.show("Verify access first and finish any current transfer.");return;}a.busy=true;
   new Thread(()->{try(java.net.Socket socket=a.helperSocket()){

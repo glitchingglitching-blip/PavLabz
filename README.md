@@ -1,7 +1,7 @@
-# PavLabz Installer v0.21
+# PavLabz Installer v0.22
 
 
-[Download the installer APK](https://github.com/glitchingglitching-blip/PavLabz/releases/download/installer-v0.21/PavLabz-Installer-v0.21.apk).
+[Download the installer APK](https://github.com/glitchingglitching-blip/PavLabz/releases/download/installer-v0.22/PavLabz-Installer-v0.22.apk).
 
 The APK updates previous installer versions using the same signing certificate. No installer uninstall is needed.
 
@@ -21,9 +21,9 @@ The original dark/red style is retained. The code, labeled status circle and Ver
 
 Existing overflow1 and overflow2 files remain at their exact paths. The installer never moves or deletes them. No automatic recovery folders are created and no game contents are moved outside the selected game OBB directory.
 
-After verifying access, each game has a View OBB folder button. The browser displays the actual selected game directory, opens subfolders, moves individual nested files into that same game root, and deletes explicitly selected files or empty folders after confirmation. Overflow files are protected from move and delete. Existing destination files are never overwritten by a manual move.
+Each game has a View OBB folder button available during setup. The first use asks for folder-access consent and then guides wireless-debugging pairing. The folder opens automatically once access is verified. Shared headset profiles use their own game storage. The browser displays the actual selected game directory, opens subfolders, moves individual nested files into that same game root, and deletes explicitly selected files or empty folders after confirmation. Overflow files are protected from move and delete. Existing destination files are never overwritten by a manual move.
 
-If a subfolder exists, installation stops before transfer and asks the user to inspect it. Main and patch are installed directly in the game root. Each download is checked for byte count, SHA-256 and CRC32, then both completed files are checked again on storage before success. Older Pavlov main/patch copies are deleted only after the replacement verifies. Failed transfers report an error; a completed main can remain alongside an older patch until retry succeeds.
+Empty subfolders, including update and nested empty folders, are removed before installation and final verification. No files are deleted by folder cleanup. If a nonempty subfolder exists, installation stops before transfer and asks the user to inspect it. Main and patch are installed directly in the game root. Each download is checked for byte count, SHA-256 and CRC32, then both completed files are checked again on storage before success. Older Pavlov main/patch copies are deleted only after the replacement verifies. Failed transfers report an error; a completed main can remain alongside an older patch until retry succeeds.
 
 Version 0.20 moved additional contents (including overflow files) into /sdcard/Download/PavLabz-recovery. Users affected by that version may need to manually restore required overflow files to their original game directory. This update does not automatically move recovery contents.
 
