@@ -4,6 +4,7 @@ final class PavlovReplacement{
  static final String PACKAGE="com.vankrupt.pavlov";
  static void checkNames(File dir,String[] expected,boolean complete)throws IOException{
   File[] files=dir.listFiles();if(files==null)throw new IOException("Cannot inspect Pavlov OBB folder");
+  if(complete)for(File f:files){boolean wanted=false;for(String n:expected)if(f.getName().equals(n))wanted=true;if(!wanted||!f.isFile()||!f.getCanonicalFile().equals(f.getAbsoluteFile()))throw new IOException("Unexpected Pavlov OBB folder entry: "+f.getName());}
   for(String target:expected){int count=0;String kind=target.substring(0,target.indexOf('.'));long version=Long.parseLong(target.split("\\.",3)[1]);
    for(File f:files){
     String name=f.getName();if(!name.startsWith(kind+".")||!name.contains(PACKAGE))continue;
@@ -13,6 +14,17 @@ final class PavlovReplacement{
     if(name.equals(target))count++;
    }if(complete&&count!=1)throw new IOException("Missing final Pavlov OBB: "+target);
   }
+ }
+ static int recoverExtra(File dir,String[] expected,File recoveryRoot)throws Exception{
+  File[] files=dir.listFiles();if(files==null)throw new IOException("Cannot inspect Pavlov OBB folder");
+  File batch=null;int count=0;
+  for(File f:files){
+   boolean wanted=false;for(String name:expected)if(name.equals(f.getName()))wanted=true;if(wanted)continue;
+   ObbPlacement.validateTree(f);
+   if(batch==null){if(!recoveryRoot.getCanonicalFile().equals(recoveryRoot.getAbsoluteFile()))throw new IOException("Redirected recovery folder");if(!recoveryRoot.isDirectory()&&!recoveryRoot.mkdirs())throw new IOException("Cannot create recovery folder");batch=new File(recoveryRoot,UUID.randomUUID().toString());if(!batch.mkdir())throw new IOException("Cannot create recovery batch");}
+   File dest=new File(batch,f.getName());if(dest.exists())throw new IOException("Recovery entry already exists");
+   if(!f.renameTo(dest)){ObbPlacement.copyTree(f,dest);ObbPlacement.removeVerifiedTree(f,dest);}count++;
+  }return count;
  }
  static void cleanOld(File dir,Payload.Entry e)throws Exception{
   File[] files=dir.listFiles();if(files==null)throw new IOException("Cannot inspect old Pavlov OBBs");
@@ -56,7 +68,7 @@ final class PavlovReplacement{
    // Same-directory atomic replacement removes the old destination without moving it to backup/recovery.
    Files.move(temp.toPath(),target.toPath(),StandardCopyOption.ATOMIC_MOVE,StandardCopyOption.REPLACE_EXISTING);
    Payload.verifyStored(target,e);cleanOld(dir,e);
-   Helper.say(out,"Installed and verified: "+e.name+". Old main/patch copies deleted; overflow files unchanged.");
+   Helper.say(out,"Installed and verified: "+e.name+". Old main/patch copies deleted; other contents will be moved to recovery after both files verify.");
   }finally{if(temp.exists()&&!temp.delete())System.err.println("Left staging file: "+temp);}
  }
 }

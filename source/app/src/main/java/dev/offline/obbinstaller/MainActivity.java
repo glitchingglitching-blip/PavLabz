@@ -33,7 +33,7 @@ public class MainActivity extends Activity {
         status.setTextSize(20);
         status.setText(GameCatalog.title(selectedGame)+"\nDestination: /sdcard/Android/obb/"+GameCatalog.target(selectedGame)+"\n\nClose "+GameCatalog.title(selectedGame)+" before installing. Pair once to enable access, then install the verified patch.\n\nALL REQUIRED OBBs — all downloads are checked against pinned SHA-256 hashes.");
         status.append(selectedGame.equals(GameCatalog.PAVLOV) ? "\n\nPavlov: main and patch directly in this folder." : "\n\nContractors: main and patch directly in this folder.");
-        status.append("\nPavlov: only main and patch are replaced. Existing overflow files stay where they are. Contractors uses its existing folder repair.");
+        status.append("\nPavlov: only main and patch remain in the game folder. Other files and folders, including overflow files, move to Download/PavLabz-recovery. The game may require its overflow files.");
         install = new Button(this);
                 install.setText("Download and install game OBBs");
         forceReplace=new CheckBox(this);forceReplace.setText("Replace anyway - repair folder layout and reinstall every required OBB");forceReplace.setTextColor(UiStyle.WHITE);forceReplace.setTextSize(18);forceReplace.setButtonTintList(android.content.res.ColorStateList.valueOf(UiStyle.RED));
@@ -71,7 +71,7 @@ public class MainActivity extends Activity {
         gameChoices=new LinearLayout(this);gameChoices.setOrientation(LinearLayout.VERTICAL);
         TextView choose=new TextView(this);choose.setText("Choose your game");gameChoices.addView(choose);
         for(String game:new String[]{GameCatalog.PAVLOV,GameCatalog.CONTRACTORS}){
-         Button pick=new Button(this);pick.setText(GameCatalog.title(game));pick.setOnClickListener(v->{if(busy||!accessVerified)return;selectedGame=game;gameChosen=true;installPanel.setVisibility(android.view.View.VISIBLE);show(GameCatalog.title(game)+"\nDestination: /sdcard/Android/obb/"+GameCatalog.target(game)+"\nMain and patch go directly in this folder. Pavlov replaces old copies without backups and preserves overflow files. Close the game before installing.");});gameChoices.addView(pick);
+         Button pick=new Button(this);pick.setText(GameCatalog.title(game));pick.setOnClickListener(v->{if(busy||!accessVerified)return;selectedGame=game;gameChosen=true;installPanel.setVisibility(android.view.View.VISIBLE);show(GameCatalog.title(game)+"\nDestination: /sdcard/Android/obb/"+GameCatalog.target(game)+"\nMain and patch go directly in this folder. Pavlov removes old main/patch files and moves other contents, including overflow files, to Download/PavLabz-recovery. The game may require its overflow files. Close the game before installing.");});gameChoices.addView(pick);
         }
         optionsPanel.addView(gameChoices);optionsPanel.addView(installPanel);
         for(android.view.View view:new android.view.View[]{forceReplace,install,progress,progressText,success})installPanel.addView(view);

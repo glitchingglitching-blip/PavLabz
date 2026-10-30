@@ -1,7 +1,7 @@
-# PavLabz Installer v0.19
+# PavLabz Installer v0.20
 
 
-[Download the installer APK](https://github.com/glitchingglitching-blip/PavLabz/releases/download/installer-v0.19/PavLabz-Installer-v0.19.apk).
+[Download the installer APK](https://github.com/glitchingglitching-blip/PavLabz/releases/download/installer-v0.20/PavLabz-Installer-v0.20.apk).
 
 The APK updates previous installer versions using the same signing certificate. No installer uninstall is needed.
 
@@ -19,11 +19,11 @@ The original dark/red style is retained. The code, labeled status circle and Ver
 
 ### Pavlov replacement fix
 
-Pavlov replaces only main and patch in the game package OBB folder. Existing overflow1 and overflow2 files stay at their exact current paths and are never downloaded, overwritten, deleted, or moved by this installer.
+Pavlov installs main and patch directly in the game package OBB folder. After both verify, all other files and folders, including overflow files, are moved into a uniquely named recovery folder under /sdcard/Download/PavLabz-recovery/com.vankrupt.pavlov/. The game may require overflow files to load or function.
 
 The new main or patch is downloaded to a temporary file and checked for exact size, SHA-256 and CRC32 before replacement. A same-directory atomic replacement removes the old destination without moving it to a backup or recovery folder. Matching older main/patch versions and main/patch backup copies in the root, plus matching older main/patch files directly inside an update folder, are deleted after the new file verifies. Pavlov no longer offers the backup choice.
 
-Pavlov no longer relocates entire subfolders. Existing overflow files and unrelated folder contents remain in place. An update folder containing overflow files is preserved; only an empty update folder can be removed. Newer-version main/patch files cause a version-mismatch stop rather than being deleted.
+The final Pavlov OBB folder must contain exactly the two required files and no subfolders. Newer-version main/patch files cause a version-mismatch stop rather than being deleted. If installation stops midway, a verified new main may coexist with an older patch; retry to complete both.
 
 Contractors retains its existing folder-repair and optional-backup behavior. Verified misplaced OBBs move into its package folder; leftover nested content is preserved under /sdcard/Download/PavLabz-recovery/com.CaveManStudio.ContractorsVR/.
 
@@ -34,8 +34,8 @@ Replace anyway downloads and verifies every required OBB again, including matchi
 Pavlov uses two files directly in its package folder:
 
     Android/obb/com.vankrupt.pavlov/
-      main.2447.com.vankrupt.pavlov.obb
-      patch.2447.com.vankrupt.pavlov.obb
+      main.2449.com.vankrupt.pavlov.obb
+      patch.2449.com.vankrupt.pavlov.obb
 
 Contractors uses two files directly in its package folder:
 
@@ -43,18 +43,18 @@ Contractors uses two files directly in its package folder:
       main.181.com.CaveManStudio.ContractorsVR.obb
       patch.181.com.CaveManStudio.ContractorsVR.obb
 
-Both game transfers contain main and patch only, with no separately downloaded overflow files. Replacement main and patch files are written directly in the selected game folder. Existing Pavlov overflow files and their locations are preserved. Download chunks such as .part001 are reconstructed into actual .obb files by the installer.
+Both game transfers contain main and patch only, with no separately downloaded overflow files. Replacement main and patch files are written directly in the selected game folder. Existing Pavlov overflow files are moved to recovery, and the game may require them. Download chunks such as .part001 are reconstructed into actual .obb files by the installer.
 
 Expected size, SHA-256 and CRC32 are pinned for complete files and download parts. The final flat layout is checked before success. These are the packaged game versions, not a promise of compatibility with future game updates.
 
 ## Downloads
 
-- [Pavlov main and patch](https://github.com/glitchingglitching-blip/PavLabz/releases/tag/obb-v2447)
+- [Pavlov main and patch](https://github.com/glitchingglitching-blip/PavLabz/releases/tag/obb-v2449)
 - [Contractors files](https://github.com/glitchingglitching-blip/PavLabz/releases/tag/contractors-obb-v181-20261025)
 
 ## Validation
 
-See release notes for validation of this version. Local tests passed for both manifests and game routes, 8 Pavlov replacement scenarios, a duplex transfer-handshake test, and 12 Contractors nested-folder repair scenarios, incomplete/conflicting/duplicate/older/unknown nested contents, replacement and rollback, and final size/SHA-256/CRC32. The APK signing certificate matches previous installer releases. No headset was connected for an end-to-end transfer test.
+Build and validation details are provided in the release. A headset transfer and game launch have not been tested for this version.
 
 Pairing-screen positioning and red/green presentation were checked in an Android emulator; this does not confirm real Quest pairing or an end-to-end headset transfer.
 

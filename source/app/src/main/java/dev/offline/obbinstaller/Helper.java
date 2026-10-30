@@ -49,8 +49,12 @@ public final class Helper {
                         String choice = request.readUTF();
                         if (!choice.equals("BACKUP") && !choice.equals("REPLACE")) throw new IOException("Invalid backup choice");
                         for (Payload.Entry entry : payload.files) copy(dir, entry, out, choice.equals("BACKUP"), request, operation.equals("INSTALL_FORCE_V1"));
+                        if(payload.packageName.equals(PavlovReplacement.PACKAGE)){
+                            int moved=PavlovReplacement.recoverExtra(dir,expectedNames,new File(downloadRoot,"PavLabz-recovery/"+payload.packageName));
+                            if(moved>0)say(out,"Moved "+moved+" other item(s), including any overflow files, to /sdcard/Download/PavLabz-recovery/"+payload.packageName+". The game may require its overflow files.");
+                        }
                         ObbPlacement.checkNames(dir,payload.packageName,expectedNames,true);
-                        say(out, "DONE: All required .obb names, location, size, SHA-256 and CRC32 verified in " + dir.getAbsolutePath());
+                        say(out, "DONE: All required .obb names, location, size, SHA-256 and CRC32 verified in " + dir.getAbsolutePath() + (payload.packageName.equals(PavlovReplacement.PACKAGE)?". Any other contents, including overflow files, are moved to /sdcard/Download/PavLabz-recovery/com.vankrupt.pavlov/. The game may require overflow files.":""));
                     } catch (Exception e) {
                         say(out, "ERROR: " + e.getClass().getSimpleName() + ": " + e.getMessage() + ". Earlier completed files remain installed.");
                     }
