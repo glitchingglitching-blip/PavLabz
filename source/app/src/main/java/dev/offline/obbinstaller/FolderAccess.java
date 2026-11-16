@@ -2,7 +2,7 @@ package dev.offline.obbinstaller;
 import java.io.*;import java.nio.file.*;import java.util.*;
 final class FolderAccess {
  static File gameRoot(int uid,String pkg)throws IOException{
-  if(uid<10000||uid%100000<10000||(!pkg.equals(GameCatalog.target(GameCatalog.PAVLOV))&&!pkg.equals(GameCatalog.target(GameCatalog.CONTRACTORS))))throw new IOException("Invalid profile or game");
+  if(uid<10000||uid%100000<10000||(!pkg.equals(GameCatalog.target(GameCatalog.PAVLOV))&&!pkg.equals(GameCatalog.target(GameCatalog.CONTRACTORS))&&!pkg.equals(GameCatalog.target(GameCatalog.AIRSOFT))))throw new IOException("Invalid profile or game");
   return new File("/storage/emulated/"+(uid/100000)+"/Android/obb",pkg).getCanonicalFile();
  }
  static int removeEmptyFolders(File root)throws IOException{validateFolders(root,0,new int[]{0});return prune(root,0);}

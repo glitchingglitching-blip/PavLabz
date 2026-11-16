@@ -1,0 +1,25 @@
+package dev.offline.obbinstaller;
+import java.io.*;import java.nio.file.*;import java.security.*;import java.util.*;import java.util.zip.CRC32;
+final class Airsoft491 {
+ static final String PACKAGE="com.NekomataGamesLLC.AirsoftAllstars";
+ static void verifyVersion(int profile)throws Exception{
+  Process p=new ProcessBuilder("/system/bin/dumpsys","package",PACKAGE).redirectErrorStream(true).start();StringBuilder b=new StringBuilder();try(BufferedReader in=new BufferedReader(new InputStreamReader(p.getInputStream()))){String line;while((line=in.readLine())!=null){if(b.length()<200000)b.append(line).append('\n');}}if(p.waitFor()!=0||!java.util.regex.Pattern.compile("\\bversionCode=491\\b").matcher(b).find())throw new IOException("Airsoft version 491 is required");
+  Process running=new ProcessBuilder("/system/bin/pidof",PACKAGE).redirectErrorStream(true).start();String pid;try(BufferedReader in=new BufferedReader(new InputStreamReader(running.getInputStream()))){pid=in.readLine();}running.waitFor();if(pid!=null&&!pid.trim().isEmpty())throw new IOException("Close Airsoft before installing");
+ }
+ static void checkLayout(File dir)throws IOException{
+  File[] children=dir.listFiles();if(children==null)throw new IOException("Cannot inspect Airsoft folder");
+  for(File f:children){if(!f.getCanonicalFile().equals(f.getAbsoluteFile()))throw new IOException("Redirected entry: "+f.getName());if(f.isFile()&&f.getName().matches("\\.airsoft-install-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\\.part")){if(!f.delete())throw new IOException("Cannot remove stale installer file");continue;}if(f.isDirectory()){if(f.getName().equals("update")){String[] entries=f.list();if(entries==null)throw new IOException("Cannot inspect update folder");if(entries.length==0){if(!f.delete())throw new IOException("Cannot remove empty update folder");continue;}}throw new IOException("Subfolder found: "+f.getName()+". Use View folder to inspect it.");}}
+ }
+ static void preflight(File dir,Payload payload,DataOutputStream out)throws Exception{
+  checkLayout(dir);for(Payload.Entry e:payload.files){File target=new File(dir,e.name);if(!target.getCanonicalFile().equals(target.getAbsoluteFile()))throw new IOException("Redirected Airsoft file: "+e.name);if(!target.exists()&&e.name.endsWith(".bundle")){Helper.say(out,"Map file will be installed: "+e.name);continue;}if(!target.isFile())throw new IOException("Required Airsoft 491 file is missing: "+e.name+". Restore the game first.");Helper.say(out,"Checking existing Airsoft file: "+e.name);String actual=Payload.hash(target);if(!actual.equals(e.referenceSha256)&&!actual.equals(e.sha256))throw new IOException("Existing Airsoft file differs from the supported 491 reference: "+e.name);}
+ }
+ static void install(File dir,Payload payload,DataOutputStream out,DataInputStream in,int profile,boolean force)throws Exception{
+  verifyVersion(profile);preflight(dir,payload,out);Helper.say(out,"PLAN:");if(!in.readUTF().equals("REPLACE"))throw new IOException("Invalid install choice");
+  for(Payload.Entry e:payload.files)copy(dir,e,out,in,force);for(Payload.Entry e:payload.files)Payload.verifyStored(new File(dir,e.name),e);checkLayout(dir);Helper.say(out,"DONE: Airsoft main OBB and 18 map files verified. Game compatibility requires a launch test.");
+ }
+ static void copy(File dir,Payload.Entry e,DataOutputStream out,DataInputStream in,boolean force)throws Exception{
+  File target=new File(dir,e.name);if(!force&&target.length()==e.size&&Payload.hash(target).equals(e.sha256)){Payload.verifyStored(target,e);Helper.say(out,"Already installed and verified: "+e.name);return;}
+  Helper.say(out,"NEED:"+e.name);long size=in.readLong();if(size!=e.size||size<=0)throw new IOException("Invalid Airsoft download size");if(dir.getUsableSpace()<size+64L*1024*1024)throw new IOException("Not enough Quest storage for verified Airsoft replacement");File temp=new File(dir,".airsoft-install-"+UUID.randomUUID()+".part");if(!temp.createNewFile())throw new IOException("Cannot create staging file");
+  try{Helper.say(out,"Installing downloaded file: "+e.name);MessageDigest sha=MessageDigest.getInstance("SHA-256");CRC32 crc=new CRC32();long total=0;try(FileOutputStream sink=new FileOutputStream(temp)){byte[] b=new byte[1048576];while(total<size){int n=in.read(b,0,(int)Math.min(b.length,size-total));if(n<0)throw new IOException("Airsoft download ended early");sink.write(b,0,n);sha.update(b,0,n);crc.update(b,0,n);total+=n;}sink.getFD().sync();}String appHash=in.readUTF(),digest=Payload.hex(sha.digest());if(!digest.equals(e.sha256)||!digest.equals(appHash)||!String.format(Locale.ROOT,"%08x",crc.getValue()).equals(e.crc32))throw new IOException("Airsoft download verification failed");Payload.verifyStored(temp,e);Files.move(temp.toPath(),target.toPath(),StandardCopyOption.ATOMIC_MOVE,StandardCopyOption.REPLACE_EXISTING);Payload.verifyStored(target,e);Helper.say(out,"Installed and verified: "+e.name);}finally{if(temp.exists()&&!temp.delete())System.err.println("Left staging file: "+temp.getName());}
+ }
+}

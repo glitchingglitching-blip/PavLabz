@@ -1,0 +1,317 @@
+{
+  "packageName": "com.NekomataGamesLLC.AirsoftAllstars",
+  "versionCode": 491,
+  "files": [
+    {
+      "name": "maps_scenes_assets_scenes_backroomslobby_day.unity_6d16fe0218f805ee0bf57f1c34e68fbe.bundle",
+      "size": 66850713,
+      "sha256": "dd78a0d4033550562188c554e1dd7f4cf04401a62cbab4404809c617931f8f03",
+      "crc32": "12feb328",
+      "referenceSha256": "bef4c71c20ad311a059da792d2b1be84d4cf53a30b1dbfa73a1a0c4e60d12330",
+      "parts": [
+        {
+          "name": "maps_scenes_assets_scenes_backroomslobby_day.unity_6d16fe0218f805ee0bf57f1c34e68fbe.bundle.part001",
+          "size": 66850713,
+          "sha256": "dd78a0d4033550562188c554e1dd7f4cf04401a62cbab4404809c617931f8f03",
+          "crc32": "12feb328",
+          "url": "https://github.com/glitchingglitching-blip/PavLabz/releases/download/airsoft-v491/maps_scenes_assets_scenes_backroomslobby_day.unity_6d16fe0218f805ee0bf57f1c34e68fbe.bundle.part001"
+        }
+      ]
+    },
+    {
+      "name": "maps_scenes_assets_scenes_backroomslobby_night.unity_2a0a007468d4d181a19ad01f94d78cc1.bundle",
+      "size": 64925309,
+      "sha256": "2aecd815a270a96174d88151c41d8627352ab837d801c3efdb176124ab72d794",
+      "crc32": "92053697",
+      "referenceSha256": "2edc8f8f2c9ebff15a5673f04817341d36c144dec6e6e1f88b1e6f770c6ee46a",
+      "parts": [
+        {
+          "name": "maps_scenes_assets_scenes_backroomslobby_night.unity_2a0a007468d4d181a19ad01f94d78cc1.bundle.part001",
+          "size": 64925309,
+          "sha256": "2aecd815a270a96174d88151c41d8627352ab837d801c3efdb176124ab72d794",
+          "crc32": "92053697",
+          "url": "https://github.com/glitchingglitching-blip/PavLabz/releases/download/airsoft-v491/maps_scenes_assets_scenes_backroomslobby_night.unity_2a0a007468d4d181a19ad01f94d78cc1.bundle.part001"
+        }
+      ]
+    },
+    {
+      "name": "maps_scenes_assets_scenes_desertarena_day.unity_0259e6d5289688caa81cc0b9bdf1ec86.bundle",
+      "size": 104892206,
+      "sha256": "6f767965d03bce67118f492cd1df3173f43e791ea88020c28775efae60fd00ff",
+      "crc32": "58856217",
+      "referenceSha256": "52c6bdf7a64f9b174bb8db812591c3978185d0412ed146129a1209a1b21a37d3",
+      "parts": [
+        {
+          "name": "maps_scenes_assets_scenes_desertarena_day.unity_0259e6d5289688caa81cc0b9bdf1ec86.bundle.part001",
+          "size": 104892206,
+          "sha256": "6f767965d03bce67118f492cd1df3173f43e791ea88020c28775efae60fd00ff",
+          "crc32": "58856217",
+          "url": "https://github.com/glitchingglitching-blip/PavLabz/releases/download/airsoft-v491/maps_scenes_assets_scenes_desertarena_day.unity_0259e6d5289688caa81cc0b9bdf1ec86.bundle.part001"
+        }
+      ]
+    },
+    {
+      "name": "maps_scenes_assets_scenes_desertarena_night.unity_5537039116e0579c39ba0e6794dd596b.bundle",
+      "size": 104588776,
+      "sha256": "908bd7d42c62ac5730c23f0360c141a9c6f252763be6afe567ddabce8ee1fc0e",
+      "crc32": "bf02fd26",
+      "referenceSha256": "1a7750ee76bc8636338f0a4c7477a620240a703ac908e0ce2fb9eacf88cb103b",
+      "parts": [
+        {
+          "name": "maps_scenes_assets_scenes_desertarena_night.unity_5537039116e0579c39ba0e6794dd596b.bundle.part001",
+          "size": 104588776,
+          "sha256": "908bd7d42c62ac5730c23f0360c141a9c6f252763be6afe567ddabce8ee1fc0e",
+          "crc32": "bf02fd26",
+          "url": "https://github.com/glitchingglitching-blip/PavLabz/releases/download/airsoft-v491/maps_scenes_assets_scenes_desertarena_night.unity_5537039116e0579c39ba0e6794dd596b.bundle.part001"
+        }
+      ]
+    },
+    {
+      "name": "maps_scenes_assets_scenes_dyno_day.unity_f1d4d74d2fa92d043e38370984818831.bundle",
+      "size": 111624910,
+      "sha256": "d6f92c53d8944b021bb2af927c84242e5d86e1ad57ec5d537812fd1824748f77",
+      "crc32": "f49239f9",
+      "referenceSha256": "51b1f66212b3fb166cedc63430cc7d686291095e1bd062c24b53e8893dc73513",
+      "parts": [
+        {
+          "name": "maps_scenes_assets_scenes_dyno_day.unity_f1d4d74d2fa92d043e38370984818831.bundle.part001",
+          "size": 111624910,
+          "sha256": "d6f92c53d8944b021bb2af927c84242e5d86e1ad57ec5d537812fd1824748f77",
+          "crc32": "f49239f9",
+          "url": "https://github.com/glitchingglitching-blip/PavLabz/releases/download/airsoft-v491/maps_scenes_assets_scenes_dyno_day.unity_f1d4d74d2fa92d043e38370984818831.bundle.part001"
+        }
+      ]
+    },
+    {
+      "name": "maps_scenes_assets_scenes_dyno_night.unity_cef2a69d5b351aea2baa521e3469e9dd.bundle",
+      "size": 120952290,
+      "sha256": "15c3df46d9164456f327d4af3725031f78d5db8b2309e8b0298527c66a176812",
+      "crc32": "e3f4b520",
+      "referenceSha256": "d0547c7805aa7a648aec70aee0dd03d03d96617cbc66d76fc4027e92efdaa033",
+      "parts": [
+        {
+          "name": "maps_scenes_assets_scenes_dyno_night.unity_cef2a69d5b351aea2baa521e3469e9dd.bundle.part001",
+          "size": 120952290,
+          "sha256": "15c3df46d9164456f327d4af3725031f78d5db8b2309e8b0298527c66a176812",
+          "crc32": "e3f4b520",
+          "url": "https://github.com/glitchingglitching-blip/PavLabz/releases/download/airsoft-v491/maps_scenes_assets_scenes_dyno_night.unity_cef2a69d5b351aea2baa521e3469e9dd.bundle.part001"
+        }
+      ]
+    },
+    {
+      "name": "maps_scenes_assets_scenes_hangar_day.unity_61e6b0eface82dcb6eecf6b4196d955d.bundle",
+      "size": 192456939,
+      "sha256": "76ffbc9d84d343d51e355e24c3a90bf678a330f68c30fb3db7434221e5babf9e",
+      "crc32": "c2f56d00",
+      "referenceSha256": "bd499136f31188af37d60d806129414892c18b852ccaeb8b1a86fcf55301fcc7",
+      "parts": [
+        {
+          "name": "maps_scenes_assets_scenes_hangar_day.unity_61e6b0eface82dcb6eecf6b4196d955d.bundle.part001",
+          "size": 192456939,
+          "sha256": "76ffbc9d84d343d51e355e24c3a90bf678a330f68c30fb3db7434221e5babf9e",
+          "crc32": "c2f56d00",
+          "url": "https://github.com/glitchingglitching-blip/PavLabz/releases/download/airsoft-v491/maps_scenes_assets_scenes_hangar_day.unity_61e6b0eface82dcb6eecf6b4196d955d.bundle.part001"
+        }
+      ]
+    },
+    {
+      "name": "maps_scenes_assets_scenes_hangar_night.unity_01f09533020ba28931f2e78b882d131a.bundle",
+      "size": 187069273,
+      "sha256": "b5161cd3471ad16a63580ae6dd30d309bcc12c49501ff0174d8576fa514cd014",
+      "crc32": "b2ab1e8b",
+      "referenceSha256": "f6eae755f973c0f85f418ec560d56642209c88952c31c964b654a8e41f87f2bb",
+      "parts": [
+        {
+          "name": "maps_scenes_assets_scenes_hangar_night.unity_01f09533020ba28931f2e78b882d131a.bundle.part001",
+          "size": 187069273,
+          "sha256": "b5161cd3471ad16a63580ae6dd30d309bcc12c49501ff0174d8576fa514cd014",
+          "crc32": "b2ab1e8b",
+          "url": "https://github.com/glitchingglitching-blip/PavLabz/releases/download/airsoft-v491/maps_scenes_assets_scenes_hangar_night.unity_01f09533020ba28931f2e78b882d131a.bundle.part001"
+        }
+      ]
+    },
+    {
+      "name": "maps_scenes_assets_scenes_indoorbasketballcourt01_day.unity_7286f19401c0d919e4cdd14b4af821ad.bundle",
+      "size": 106166300,
+      "sha256": "384e48d97096f75cb48d7aca5b9ee928da2036f019f45f8112e796a0b8ca56de",
+      "crc32": "7354fff9",
+      "referenceSha256": "d715959dceafc99938054612b3c81037deaf5877b6baceb07f11c3ab8d76d130",
+      "parts": [
+        {
+          "name": "maps_scenes_assets_scenes_indoorbasketballcourt01_day.unity_7286f19401c0d919e4cdd14b4af821ad.bundle.part001",
+          "size": 106166300,
+          "sha256": "384e48d97096f75cb48d7aca5b9ee928da2036f019f45f8112e796a0b8ca56de",
+          "crc32": "7354fff9",
+          "url": "https://github.com/glitchingglitching-blip/PavLabz/releases/download/airsoft-v491/maps_scenes_assets_scenes_indoorbasketballcourt01_day.unity_7286f19401c0d919e4cdd14b4af821ad.bundle.part001"
+        }
+      ]
+    },
+    {
+      "name": "maps_scenes_assets_scenes_indoorbasketballcourt01_night.unity_6be813322eb7311ca2980b9f57ec2423.bundle",
+      "size": 103718149,
+      "sha256": "eb2b81e756874025e62ca4e545092aa6dcc5c84a20ede187efccdfd4dab852f2",
+      "crc32": "fb75205b",
+      "referenceSha256": "64c80ceed9a534b06e2439354f0b7ecd3ab404e7e45f312f66e12c7d2df7e0b7",
+      "parts": [
+        {
+          "name": "maps_scenes_assets_scenes_indoorbasketballcourt01_night.unity_6be813322eb7311ca2980b9f57ec2423.bundle.part001",
+          "size": 103718149,
+          "sha256": "eb2b81e756874025e62ca4e545092aa6dcc5c84a20ede187efccdfd4dab852f2",
+          "crc32": "fb75205b",
+          "url": "https://github.com/glitchingglitching-blip/PavLabz/releases/download/airsoft-v491/maps_scenes_assets_scenes_indoorbasketballcourt01_night.unity_6be813322eb7311ca2980b9f57ec2423.bundle.part001"
+        }
+      ]
+    },
+    {
+      "name": "maps_scenes_assets_scenes_japaneseschoolgym01_day.unity_bdb386afdb04ef9d850a5808ef20d4f8.bundle",
+      "size": 138694279,
+      "sha256": "af264b97ca6e79cc706b0c1f5c1ccb76737e991a6916b03620acadfb336488c5",
+      "crc32": "ad2475bf",
+      "referenceSha256": "2e0a9212a8e10519f10740d574600e4503fb5d62ffdd5cabf730403ebcfe428e",
+      "parts": [
+        {
+          "name": "maps_scenes_assets_scenes_japaneseschoolgym01_day.unity_bdb386afdb04ef9d850a5808ef20d4f8.bundle.part001",
+          "size": 138694279,
+          "sha256": "af264b97ca6e79cc706b0c1f5c1ccb76737e991a6916b03620acadfb336488c5",
+          "crc32": "ad2475bf",
+          "url": "https://github.com/glitchingglitching-blip/PavLabz/releases/download/airsoft-v491/maps_scenes_assets_scenes_japaneseschoolgym01_day.unity_bdb386afdb04ef9d850a5808ef20d4f8.bundle.part001"
+        }
+      ]
+    },
+    {
+      "name": "maps_scenes_assets_scenes_japaneseschoolgym01_night.unity_16224b9cc3f172088dd6de6250557ea4.bundle",
+      "size": 129421691,
+      "sha256": "4a4116ce0f7369f361c89ca2f15191f0cf1f2e7a7280aac65ab675602d6440e2",
+      "crc32": "9af5f80e",
+      "referenceSha256": "2c8d847a87ee30f0975dd50a9541f4408916e01514efaece04151c8fedf7b2b6",
+      "parts": [
+        {
+          "name": "maps_scenes_assets_scenes_japaneseschoolgym01_night.unity_16224b9cc3f172088dd6de6250557ea4.bundle.part001",
+          "size": 129421691,
+          "sha256": "4a4116ce0f7369f361c89ca2f15191f0cf1f2e7a7280aac65ab675602d6440e2",
+          "crc32": "9af5f80e",
+          "url": "https://github.com/glitchingglitching-blip/PavLabz/releases/download/airsoft-v491/maps_scenes_assets_scenes_japaneseschoolgym01_night.unity_16224b9cc3f172088dd6de6250557ea4.bundle.part001"
+        }
+      ]
+    },
+    {
+      "name": "maps_scenes_assets_scenes_omegafuncenter_day.unity_14c5b6763a66194a2b984425339ebe10.bundle",
+      "size": 168894419,
+      "sha256": "4704cfa7aaf862aa1ed1fa99b2671665a5d07c96677ac83eb5dca10d7587af7d",
+      "crc32": "fa8fc505",
+      "referenceSha256": "619ba032efd48be6d7e5460542441b8a9e4648478ff835869a85fb4e3077c2d7",
+      "parts": [
+        {
+          "name": "maps_scenes_assets_scenes_omegafuncenter_day.unity_14c5b6763a66194a2b984425339ebe10.bundle.part001",
+          "size": 168894419,
+          "sha256": "4704cfa7aaf862aa1ed1fa99b2671665a5d07c96677ac83eb5dca10d7587af7d",
+          "crc32": "fa8fc505",
+          "url": "https://github.com/glitchingglitching-blip/PavLabz/releases/download/airsoft-v491/maps_scenes_assets_scenes_omegafuncenter_day.unity_14c5b6763a66194a2b984425339ebe10.bundle.part001"
+        }
+      ]
+    },
+    {
+      "name": "maps_scenes_assets_scenes_omegafuncenter_night.unity_4c3c958a07e24ac2854c592ed4c54271.bundle",
+      "size": 177802102,
+      "sha256": "d7c13bc6b3a30c8d03069a5ce466d691c5ccfccfc788c42eedae06b327a3e07e",
+      "crc32": "3b9b01f3",
+      "referenceSha256": "a8433a74fd2e3ca40f51a9a963444ddd6101df521b26e78cb818ecb39931e31a",
+      "parts": [
+        {
+          "name": "maps_scenes_assets_scenes_omegafuncenter_night.unity_4c3c958a07e24ac2854c592ed4c54271.bundle.part001",
+          "size": 177802102,
+          "sha256": "d7c13bc6b3a30c8d03069a5ce466d691c5ccfccfc788c42eedae06b327a3e07e",
+          "crc32": "3b9b01f3",
+          "url": "https://github.com/glitchingglitching-blip/PavLabz/releases/download/airsoft-v491/maps_scenes_assets_scenes_omegafuncenter_night.unity_4c3c958a07e24ac2854c592ed4c54271.bundle.part001"
+        }
+      ]
+    },
+    {
+      "name": "maps_scenes_assets_scenes_omegavideo_day.unity_573780f211c4ffda5dd67372c7dba88f.bundle",
+      "size": 118142044,
+      "sha256": "e24c1ae5b224037d01be688c94b031ea43d24ebe21e8e9ab87fb7245aa6b2f47",
+      "crc32": "a6f68ca2",
+      "referenceSha256": "7994c8780e45ef722a53620d09cfafadfaea47ab2b0abe0c40cb27e3e622cb14",
+      "parts": [
+        {
+          "name": "maps_scenes_assets_scenes_omegavideo_day.unity_573780f211c4ffda5dd67372c7dba88f.bundle.part001",
+          "size": 118142044,
+          "sha256": "e24c1ae5b224037d01be688c94b031ea43d24ebe21e8e9ab87fb7245aa6b2f47",
+          "crc32": "a6f68ca2",
+          "url": "https://github.com/glitchingglitching-blip/PavLabz/releases/download/airsoft-v491/maps_scenes_assets_scenes_omegavideo_day.unity_573780f211c4ffda5dd67372c7dba88f.bundle.part001"
+        }
+      ]
+    },
+    {
+      "name": "maps_scenes_assets_scenes_omegavideo_night.unity_0fd530eaeab3e7dfac9c63fb16128fde.bundle",
+      "size": 118828451,
+      "sha256": "dde5381172942863241626313308aba97bc3d1ee8c71c9318b0c62bceb9b57f1",
+      "crc32": "4a8a3001",
+      "referenceSha256": "872f21fdf53bfb0efd3350bbed837682b1ca127a6c082dff38f3702a8fb28613",
+      "parts": [
+        {
+          "name": "maps_scenes_assets_scenes_omegavideo_night.unity_0fd530eaeab3e7dfac9c63fb16128fde.bundle.part001",
+          "size": 118828451,
+          "sha256": "dde5381172942863241626313308aba97bc3d1ee8c71c9318b0c62bceb9b57f1",
+          "crc32": "4a8a3001",
+          "url": "https://github.com/glitchingglitching-blip/PavLabz/releases/download/airsoft-v491/maps_scenes_assets_scenes_omegavideo_night.unity_0fd530eaeab3e7dfac9c63fb16128fde.bundle.part001"
+        }
+      ]
+    },
+    {
+      "name": "maps_scenes_assets_scenes_soccerfield_day.unity_a3323d5bb043d67194e63b4b787a6dd4.bundle",
+      "size": 183796713,
+      "sha256": "219074bec2df2432802959036158199752c8a0a47f7cc9ade3e601f7a50860bd",
+      "crc32": "fa0bd6ae",
+      "referenceSha256": "bbf10236d07ca56abe3a5e9fb47c34045edaa0734b6aec15e2d18f36ddb3c2ee",
+      "parts": [
+        {
+          "name": "maps_scenes_assets_scenes_soccerfield_day.unity_a3323d5bb043d67194e63b4b787a6dd4.bundle.part001",
+          "size": 183796713,
+          "sha256": "219074bec2df2432802959036158199752c8a0a47f7cc9ade3e601f7a50860bd",
+          "crc32": "fa0bd6ae",
+          "url": "https://github.com/glitchingglitching-blip/PavLabz/releases/download/airsoft-v491/maps_scenes_assets_scenes_soccerfield_day.unity_a3323d5bb043d67194e63b4b787a6dd4.bundle.part001"
+        }
+      ]
+    },
+    {
+      "name": "maps_scenes_assets_scenes_soccerfield_night.unity_ca35018de0efbfd92b5adbfff2e0b505.bundle",
+      "size": 183168664,
+      "sha256": "abb9918b593d85cb25ae427907641e6205c942bd5b49e6c1b5aaad4ce2c604a5",
+      "crc32": "794b8e01",
+      "referenceSha256": "cf53eabbd844e39442fe8994c9dc1f6982c22b4caebad1ad03dfd15727f9e5fb",
+      "parts": [
+        {
+          "name": "maps_scenes_assets_scenes_soccerfield_night.unity_ca35018de0efbfd92b5adbfff2e0b505.bundle.part001",
+          "size": 183168664,
+          "sha256": "abb9918b593d85cb25ae427907641e6205c942bd5b49e6c1b5aaad4ce2c604a5",
+          "crc32": "794b8e01",
+          "url": "https://github.com/glitchingglitching-blip/PavLabz/releases/download/airsoft-v491/maps_scenes_assets_scenes_soccerfield_night.unity_ca35018de0efbfd92b5adbfff2e0b505.bundle.part001"
+        }
+      ]
+    },
+    {
+      "name": "main.491.com.NekomataGamesLLC.AirsoftAllstars.obb",
+      "size": 2814678074,
+      "sha256": "3883cbe4d8631c1ab6407f0955190e1da6b61597d81328034d442ce6af120d8e",
+      "crc32": "e336cec8",
+      "referenceSha256": "e399ba88c1f4c96de273c0a3447c4fd01b14d765abd98920dd5f53b2578c5262",
+      "parts": [
+        {
+          "name": "main.491.com.NekomataGamesLLC.AirsoftAllstars.obb.part001",
+          "size": 1900000000,
+          "sha256": "cd4a550d859f2d8cca6c865ef3545506c4cbf70b1bbc7c8f5907299f37bea3c0",
+          "crc32": "c8e3644f",
+          "url": "https://github.com/glitchingglitching-blip/PavLabz/releases/download/airsoft-v491/main.491.com.NekomataGamesLLC.AirsoftAllstars.obb.part001"
+        },
+        {
+          "name": "main.491.com.NekomataGamesLLC.AirsoftAllstars.obb.part002",
+          "size": 914678074,
+          "sha256": "38ed2dc6f61d0c7cd4580e5f3c0b7dcb54e20ef9b9a534814b22fcb65656a5b3",
+          "crc32": "9831135c",
+          "url": "https://github.com/glitchingglitching-blip/PavLabz/releases/download/airsoft-v491/main.491.com.NekomataGamesLLC.AirsoftAllstars.obb.part002"
+        }
+      ]
+    }
+  ]
+}

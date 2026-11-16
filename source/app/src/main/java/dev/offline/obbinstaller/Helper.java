@@ -40,6 +40,7 @@ public final class Helper {
                         if (!dir.isDirectory() && !dir.mkdir()) throw new IOException("Cannot create target OBB directory");
                         String[] expectedNames=new String[payload.files.size()];
                         for(int i=0;i<expectedNames.length;i++)expectedNames[i]=payload.files.get(i).name;
+                        if(payload.packageName.equals(Airsoft491.PACKAGE)){Airsoft491.install(dir,payload,out,request,profile,operation.equals("INSTALL_FORCE_V1"));continue;}
                         int removed=FolderAccess.removeEmptyFolders(dir);if(removed>0)say(out,"Removed "+removed+" empty folder(s). Files and overflow contents unchanged.");
                         say(out,"Checking all required OBB filenames in "+dir.getAbsolutePath());
                         ObbPlacement.checkNames(dir,payload.packageName,expectedNames,false);

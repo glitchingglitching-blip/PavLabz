@@ -32,15 +32,15 @@ public class MainActivity extends Activity {
         layout.setPadding(40, 40, 40, 40);
         status = new TextView(this);
         status.setTextSize(20);
-        status.setText(GameCatalog.title(selectedGame)+"\nDestination: /sdcard/Android/obb/"+GameCatalog.target(selectedGame)+"\n\nClose "+GameCatalog.title(selectedGame)+" before installing. Pair once to enable access, then install the verified patch.\n\nALL REQUIRED OBBs — all downloads are checked against pinned SHA-256 hashes.");
-        status.append(selectedGame.equals(GameCatalog.PAVLOV) ? "\n\nPavlov: main and patch directly in this folder." : "\n\nContractors: main and patch directly in this folder.");
-        status.append("\nBoth games: main and patch go directly in their game folder. Existing overflow files stay in place. Use View folder to inspect subfolders.");
+        status.setText(GameCatalog.title(selectedGame)+"\nDestination: /sdcard/Android/obb/"+GameCatalog.target(selectedGame)+"\n\nClose "+GameCatalog.title(selectedGame)+" before installing. Pair once to enable access, then install the verified patch.\n\nAll downloads are checked against their expected hashes.");
+        status.append(selectedGame.equals(GameCatalog.AIRSOFT) ? "\n\nAirsoft 491: main OBB and 18 map files directly in this folder." : "\n\nMain and patch go directly in this folder.");
+        status.append("\nFiles go directly into the selected game folder. Use View folder to inspect it.");
         install = new Button(this);
-                install.setText("Download and install game OBBs");
-        forceReplace=new CheckBox(this);forceReplace.setText("Replace anyway - repair folder layout and reinstall every required OBB");forceReplace.setTextColor(UiStyle.WHITE);forceReplace.setTextSize(18);forceReplace.setButtonTintList(android.content.res.ColorStateList.valueOf(UiStyle.RED));
+                install.setText("Download and install game files");
+        forceReplace=new CheckBox(this);forceReplace.setText("Reinstall even if files already match");forceReplace.setTextColor(UiStyle.WHITE);forceReplace.setTextSize(18);forceReplace.setButtonTintList(android.content.res.ColorStateList.valueOf(UiStyle.RED));
         progress=new ProgressBar(this,null,android.R.attr.progressBarStyleHorizontal);progress.setMax(1000);progress.setVisibility(android.view.View.GONE);
         progressText=new TextView(this);progressText.setTextSize(18);
-        success=new Button(this);success.setText("Success — all game OBBs installed and verified");success.setVisibility(android.view.View.GONE);success.setOnClickListener(v->finish());
+        success=new Button(this);success.setText("Success — all game files installed and verified");success.setVisibility(android.view.View.GONE);success.setOnClickListener(v->finish());
                 Button settings = new Button(this); settings.setText("1. Open wireless debugging settings");
         settings.setText("1. Wireless debugging setup / status");
         settings.setOnClickListener(v -> {
@@ -72,8 +72,8 @@ public class MainActivity extends Activity {
         LinearLayout folderChoices=new LinearLayout(this);folderChoices.setOrientation(LinearLayout.VERTICAL);
         gameChoices=new LinearLayout(this);gameChoices.setOrientation(LinearLayout.VERTICAL);
         TextView choose=new TextView(this);choose.setText("Choose your game");gameChoices.addView(choose);
-        for(String game:new String[]{GameCatalog.PAVLOV,GameCatalog.CONTRACTORS}){
-         Button pick=new Button(this);pick.setText(GameCatalog.title(game));pick.setOnClickListener(v->{if(busy||!accessVerified)return;selectedGame=game;gameChosen=true;installPanel.setVisibility(android.view.View.VISIBLE);show(GameCatalog.title(game)+"\nDestination: /sdcard/Android/obb/"+GameCatalog.target(game)+"\nMain and patch go directly in this folder. Existing overflow files stay in place. No folders or files are moved outside the game folder. Close the game before installing.");});gameChoices.addView(pick);Button view=new Button(this);view.setText("View "+GameCatalog.title(game)+" OBB folder");view.setOnClickListener(v->FolderBrowser.open(this,game,""));folderChoices.addView(view);
+        for(String game:new String[]{GameCatalog.PAVLOV,GameCatalog.CONTRACTORS,GameCatalog.AIRSOFT}){
+         Button pick=new Button(this);pick.setText(GameCatalog.title(game));pick.setOnClickListener(v->{if(busy||!accessVerified)return;selectedGame=game;gameChosen=true;installPanel.setVisibility(android.view.View.VISIBLE);show(GameCatalog.title(game)+"\nDestination: /sdcard/Android/obb/"+GameCatalog.target(game)+"\nFiles go directly in this folder. Existing unrelated files stay in place. Close the game before installing.");});gameChoices.addView(pick);Button view=new Button(this);view.setText("View "+GameCatalog.title(game)+" OBB folder");view.setOnClickListener(v->FolderBrowser.open(this,game,""));folderChoices.addView(view);
         }
         optionsPanel.addView(gameChoices);optionsPanel.addView(installPanel);
         for(android.view.View view:new android.view.View[]{forceReplace,install,progress,progressText,success})installPanel.addView(view);
@@ -180,7 +180,7 @@ public class MainActivity extends Activity {
                         continue;
                     }
                     show(result);
-                                        if(result.startsWith("DONE:")){runOnUiThread(()->{progress.setIndeterminate(false);progress.setProgress(1000);progressText.setText("All game OBBs installed and verified.");success.setVisibility(android.view.View.VISIBLE);});break;}
+                                        if(result.startsWith("DONE:")){runOnUiThread(()->{progress.setIndeterminate(false);progress.setProgress(1000);progressText.setText("All required game files installed and verified.");success.setVisibility(android.view.View.VISIBLE);});break;}
                     if(result.startsWith("ERROR:")){runOnUiThread(()->{progress.setVisibility(android.view.View.GONE);progressText.setText("Installation stopped. See message above.");});break;}
                 }
             }

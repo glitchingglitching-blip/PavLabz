@@ -3,18 +3,18 @@ import org.json.*;import java.io.*;import java.security.MessageDigest;import jav
 final class Payload {
  static final String SOCKET="dev.offline.obbinstaller.helper.v1";
  final String packageName,manifestHash;final List<Entry> files=new ArrayList<>();
- static final class Entry{String name,sha256,crc32;long size;final List<Part> parts=new ArrayList<>();}
+ static final class Entry{String name,sha256,crc32,referenceSha256;long size;final List<Part> parts=new ArrayList<>();}
  static final class Part{String name,url,sha256,crc32;long size;}
  Payload(InputStream source)throws Exception{
   ByteArrayOutputStream bytes=new ByteArrayOutputStream();byte[] buffer=new byte[4096];int n;
   while((n=source.read(buffer))!=-1){if(bytes.size()+n>65536)throw new IOException("Manifest too large");bytes.write(buffer,0,n);}
   manifestHash=hex(MessageDigest.getInstance("SHA-256").digest(bytes.toByteArray()));JSONObject json=new JSONObject(bytes.toString("UTF-8"));packageName=json.getString("packageName");
-  if(!packageName.equals("com.vankrupt.pavlov") && !packageName.equals("com.CaveManStudio.ContractorsVR"))throw new IOException("Unexpected target package");
-  JSONArray array=json.getJSONArray("files");if(array.length()!=2)throw new IOException("Missing required game OBBs");Set<String> names=new HashSet<>();Set<String> kinds=new HashSet<>();
+  if(!packageName.equals("com.vankrupt.pavlov") && !packageName.equals("com.CaveManStudio.ContractorsVR") && !packageName.equals("com.NekomataGamesLLC.AirsoftAllstars"))throw new IOException("Unexpected target package");
+  boolean airsoft=packageName.equals("com.NekomataGamesLLC.AirsoftAllstars");if(airsoft&&json.optInt("versionCode")!=491)throw new IOException("Unexpected Airsoft version");JSONArray array=json.getJSONArray("files");if(array.length()!=(airsoft?19:2))throw new IOException("Missing required game OBBs");Set<String> names=new HashSet<>();Set<String> kinds=new HashSet<>();
   for(int i=0;i<array.length();i++){
-   JSONObject item=array.getJSONObject(i);Entry e=new Entry();e.name=item.getString("name");e.sha256=item.getString("sha256");e.size=item.getLong("size");e.crc32=item.optString("crc32","");
-   if(!e.name.matches("(main|patch)\\.[0-9]+\\."+java.util.regex.Pattern.quote(packageName)+"\\.obb") || !names.add(e.name) || !e.sha256.matches("[0-9a-f]{64}") || e.size<=0 || e.size>20L*1024*1024*1024)throw new IOException("Invalid file metadata");
-   if(!kinds.add(e.name.substring(0,e.name.indexOf('.'))))throw new IOException("Duplicate main/patch kind");
+   JSONObject item=array.getJSONObject(i);Entry e=new Entry();e.name=item.getString("name");e.sha256=item.getString("sha256");e.size=item.getLong("size");e.crc32=item.optString("crc32","");e.referenceSha256=item.optString("referenceSha256","");
+   boolean validName=airsoft?(e.name.equals("main.491."+packageName+".obb")||e.name.matches("maps_scenes_assets_scenes_[a-z0-9_]+\\.unity_[a-f0-9]+\\.bundle")):e.name.matches("(main|patch)\\.[0-9]+\\."+java.util.regex.Pattern.quote(packageName)+"\\.obb");if(!validName || !names.add(e.name) || !e.sha256.matches("[0-9a-f]{64}") || (airsoft&&!e.referenceSha256.matches("[0-9a-f]{64}")) || e.size<=0 || e.size>20L*1024*1024*1024)throw new IOException("Invalid file metadata");
+   if(!airsoft&&!kinds.add(e.name.substring(0,e.name.indexOf('.'))))throw new IOException("Duplicate main/patch kind");
    if(item.has("parts")){
     JSONArray parts=item.getJSONArray("parts");long total=0;if(parts.length()<1 || parts.length()>32 || !e.crc32.matches("[0-9a-f]{8}"))throw new IOException("Invalid part metadata");
     for(int k=0;k<parts.length();k++){
@@ -22,7 +22,8 @@ final class Payload {
      if(!part.name.equals(e.name+String.format(Locale.ROOT,".part%03d",k+1)) || part.size<=0 || part.size>1900000000L || !part.sha256.matches("[0-9a-f]{64}") || !part.crc32.matches("[0-9a-f]{8}") || !"https".equals(uri.getScheme()) || !"github.com".equals(uri.getHost()) || uri.getUserInfo()!=null || uri.getQuery()!=null || uri.getFragment()!=null || !uri.getPath().startsWith("/glitchingglitching-blip/PavLabz/releases/download/") || !uri.getPath().endsWith("/"+part.name))throw new IOException("Invalid GitHub part");total+=part.size;e.parts.add(part);
     }if(total!=e.size)throw new IOException("Part sizes do not match OBB");
    }else{throw new IOException("Expected GitHub release parts");}
-   if(!files.isEmpty() && !e.name.split("\\.",3)[1].equals(files.get(0).name.split("\\.",3)[1]))throw new IOException("Mixed OBB versions");
+   if(!airsoft && !files.isEmpty() && !e.name.split("\\.",3)[1].equals(files.get(0).name.split("\\.",3)[1]))throw new IOException("Mixed OBB versions");
+   if(airsoft && ((i==array.length()-1)!=e.name.equals("main.491."+packageName+".obb")))throw new IOException("Airsoft main must be last");
    files.add(e);
   }
  }
